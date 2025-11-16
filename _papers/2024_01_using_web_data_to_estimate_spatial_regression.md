@@ -1,14 +1,11 @@
 ---
 name: Using Web-Data to Estimate Spatial Regression Models
-category: Paper
-journal: International Regional Science Review
-tools: [Web-scraping, Spatial]
-authors: Giuseppe Arbia and Vincenzo Nardelli
-year: 2023
-link: https://journals.sagepub.com/doi/abs/10.1177/01600176231173438
-image: /img/paper_real_estate.jpg
-image_credits: Martin Sanchez - Unsplash
-description:      
+category: Journal Article
+year: 2024
+date: 2024-01-01
+authors: Giuseppe Arbia, Vincenzo Nardelli
+journal: INTERNATIONAL REGIONAL SCIENCE REVIEW
+link: "https://doi.org/10.1177/01600176231173438"
 ---
 
 # Abstract

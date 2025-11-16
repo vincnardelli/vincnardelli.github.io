@@ -1,0 +1,233 @@
+[
+  {
+    "nome_conferenza": "49th Scientific Meeting of the SIS",
+    "data": "2018-06-20",
+    "luogo": "Palermo, Italy",
+    "lat": 38.1157,
+    "lon": 13.3613
+  },
+  {
+    "nome_conferenza": "Smart Statistics for Smart Applications",
+    "data": "2019-06-19",
+    "luogo": "Milano, Italy",
+    "lat": 45.4643,
+    "lon": 9.1895
+  },
+  {
+    "nome_conferenza": "Assessing the Quality of Spatial Crowdsourced and Web Data",
+    "data": "2019-06-20",
+    "luogo": "Chicago, USA",
+    "lat": 41.8781,
+    "lon": -87.6298
+  },
+  {
+    "nome_conferenza": "North American Regional Science Council, SEA",
+    "data": "2019-11-13",
+    "luogo": "Pittsburgh, USA",
+    "lat": 40.4406,
+    "lon": -79.9959
+  },
+  {
+    "nome_conferenza": "Advisory Board - Istat",
+    "data": "2020-12-01",
+    "luogo": "Roma, Italy",
+    "lat": 41.9028,
+    "lon": 12.4964
+  },
+  {
+    "nome_conferenza": "Sampling Strategies for Covid 19",
+    "data": "2021-04-01",
+    "luogo": "Roma, Italy",
+    "lat": 41.9028,
+    "lon": 12.4964
+  },
+  {
+    "nome_conferenza": "The Role of Statistics in the Covid 19 Pandemic",
+    "data": "2021-05-18",
+    "luogo": "Roma, Italy",
+    "lat": 41.9028,
+    "lon": 12.4964
+  },
+  {
+    "nome_conferenza": "Spatial Econometrics Association Conference",
+    "data": "2021-05-26",
+    "luogo": "Tokyo, Japan",
+    "lat": 35.6895,
+    "lon": 139.6917
+  },
+  {
+    "nome_conferenza": "Covid-19: The Urgent Call for a Unified Statistical and Demographic Challenge",
+    "data": "2021-06-21",
+    "luogo": "Pisa, Italy",
+    "lat": 43.7085,
+    "lon": 10.4036
+  },
+  {
+    "nome_conferenza": "Spatial Econometrics Workshop",
+    "data": "2022-05-19",
+    "luogo": "Lille, France",
+    "lat": 50.6292,
+    "lon": 3.0573
+  },
+  {
+    "nome_conferenza": "Defining the Sample Design for Small Area Estimation",
+    "data": "2022-05-20",
+    "luogo": "Roma, Italy",
+    "lat": 41.9028,
+    "lon": 12.4964
+  },
+  {
+    "nome_conferenza": "Giornate della Ricerca MEMOTEF",
+    "data": "2022-05-31",
+    "luogo": "Roma, Italy",
+    "lat": 41.9028,
+    "lon": 12.4964
+  },
+  {
+    "nome_conferenza": "Spatial Health Economics Workshop",
+    "data": "2022-07-07",
+    "luogo": "Venezia, Italy",
+    "lat": 45.4408,
+    "lon": 12.3155
+  },
+  {
+    "nome_conferenza": "ITACOSM Conference",
+    "data": "2022-07-07",
+    "luogo": "Perugia, Italy",
+    "lat": 43.1107,
+    "lon": 12.3908
+  },
+  {
+    "nome_conferenza": "51st Scientific Meeting of the SIS",
+    "data": "2022-07-22",
+    "luogo": "Caserta, Italy",
+    "lat": 41.0828,
+    "lon": 14.3347
+  },
+  {
+    "nome_conferenza": "Spatial Econometrics Association Conference",
+    "data": "2022-07-23",
+    "luogo": "Warsaw, Poland",
+    "lat": 52.2298,
+    "lon": 21.0122
+  },
+  {
+    "nome_conferenza": "Conference of European Statistics Stakeholders 2022",
+    "data": "2022-10-20",
+    "luogo": "Roma, Italy",
+    "lat": 41.9028,
+    "lon": 12.4964
+  },
+  {
+    "nome_conferenza": "Spatial Econometrics Workshop",
+    "data": "2023-05-25",
+    "luogo": "Dijon, France",
+    "lat": 47.3220,
+    "lon": 5.0415
+  },
+  {
+    "nome_conferenza": "ITACOSM Conference",
+    "data": "2023-06-08",
+    "luogo": "Rende, Italy",
+    "lat": 39.3318,
+    "lon": 16.1840
+  },
+  {
+    "nome_conferenza": "52nd Scientific Meeting of the SIS",
+    "data": "2023-06-21",
+    "luogo": "Ancona, Italy",
+    "lat": 43.6158,
+    "lon": 13.5189
+  },
+  {
+    "nome_conferenza": "North American Regional Science Council, SEA",
+    "data": "2023-11-15",
+    "luogo": "San Diego, USA",
+    "lat": 32.7157,
+    "lon": -117.1611
+  },
+  {
+    "nome_conferenza": "2nd Italian Conference on Economic Statistics",
+    "data": "2024-02-07",
+    "luogo": "Firenze, Italy",
+    "lat": 43.7696,
+    "lon": 11.2558
+  },
+  {
+    "nome_conferenza": "14th RSAI World Congress",
+    "data": "2024-04-08",
+    "luogo": "Kecskemét, Hungary",
+    "lat": 46.9062,
+    "lon": 19.6913
+  },
+  {
+    "nome_conferenza": "Spatial Econometrics Workshop",
+    "data": "2024-05-23",
+    "luogo": "Grenoble, France",
+    "lat": 45.1885,
+    "lon": 5.7245
+  },
+  {
+    "nome_conferenza": "52nd Scientific Meeting of the SIS",
+    "data": "2024-06-17",
+    "luogo": "Bari, Italy",
+    "lat": 41.1171,
+    "lon": 16.8719
+  },
+  {
+    "nome_conferenza": "Spatial Econometrics Association Conference",
+    "data": "2024-06-24",
+    "luogo": "Groningen, Netherlands",
+    "lat": 53.2192,
+    "lon": 6.5667
+  },
+  {
+    "nome_conferenza": "Empirical Health Economics Workshop",
+    "data": "2024-07-11",
+    "luogo": "Pisa, Italy",
+    "lat": 43.7085,
+    "lon": 10.4036
+  },
+  {
+    "nome_conferenza": "North American Regional Science Council, SEA",
+    "data": "2024-11-13",
+    "luogo": "New Orleans, USA",
+    "lat": 29.9511,
+    "lon": -90.0715
+  },
+  {
+    "nome_conferenza": "SEA 2025",
+    "data": "2025-05-05",
+    "luogo": "Rabat, Morocco",
+    "lat": 34.0132,
+    "lon": -6.8326
+  },
+  {
+    "nome_conferenza": "SEW 2025",
+    "data": "2025-06-04",
+    "luogo": "Saint-Étienne, France",
+    "lat": 45.4339,
+    "lon": 4.3900
+  },
+  {
+    "nome_conferenza": "ITACOSM 2025 Conference",
+    "data": "2025-07-01",
+    "luogo": "Bologna, Italy",
+    "lat": 44.4938,
+    "lon": 11.3387
+  },
+  {
+    "nome_conferenza": "ERSA 2025",
+    "data": "2025-08-25",
+    "luogo": "Athens, Greece",
+    "lat": 37.9795,
+    "lon": 23.7162
+  },
+  {
+    "nome_conferenza": "AISRe Conference",
+    "data": "2025-09-09",
+    "luogo": "Pescara, Italy",
+    "lat": 42.4584,
+    "lon": 14.2028
+  }
+]

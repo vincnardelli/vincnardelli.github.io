@@ -1,0 +1,13 @@
+---
+name: "Analisi dei modelli organizzativi di risposta al Covid-19 in Italia: evidenze da 2 anni di Instant Report Altems"
+category: Journal Article
+year: 2022
+date: 2022-01-01
+authors: 8. Cicchetti Americo,  Di Brino Eugenio, Andrea Di Pilla, Basile Michele, Filippo Rumi, Maria Lucia Specchia, Luca Giorgio, Roberta Laurita,  Di Paolo Maria Giovanna, Ventura Marzia, Vincenzo Nardelli, Fabrizio Massimo Ferrara,  Naturale Maria Diana, Tattoli Angelo, Xoxi Entela, Siviero Ludovica, Irene Gabutti,  Gallo Marzia Vittoria, Grieco Albino,  Riccardi Maria Teresa, Sapienza Martina, Cifalinò Antonella, Paola Sacco, Cantù Elena, Stefano Villa, Giuliana Monolo,  Cristofaro Concetta Lucia, Vesperi Walter, Andrea Silenzi, Francesco Andrea Causio, Carlo Favaretti,  Di Bidino Rossella, Eugenio Anessi Pessina, Reina Rocco, Gianfranco Damiani
+journal: GIORNALE ITALIANO DI HEALTH TECHNOLOGY ASSESSMENT DELIVERY
+link: "https://publicatt.unicatt.it/"
+---
+
+# Abstract
+Dall’anno 2020 la storia dell’umanità ha dovuto fare i conti con la diffusione del Sars-COV-2 che ha generato in Italia, come in molti Paesi del pianeta una emergenza, sanitaria, sociale ed economica. L’Alta Scuola di Economia e Management dei Sistemi Sani- tari della Facoltà di Economia dell’Università Cattolica del Sacro Cuore, in collaborazione con il Dipartimento di Scienze della Vita e Sanità Pubblica (Sezione di Igiene) della Facoltà di Medicina e Chirurgia “A. Gemelli”, Cerismas (Centro di Ricerca e Studi in Management Sanitario), il Gruppo di Organizzazione Aziendale del DiGES Dipartimento di Giurisprudenza, Economia e Sociologia dell’Università della Magna Graecia di Catanzaro, e il Centro di Ricerca sulla Leadership in Medicina della Facoltà di Medicina e Chirurgia “A. Gemelli” dell’Università Cattolica del Sacro Cuore, ha settimanalmente pubblicato un Report per analizzare in modo sistematico e comparativo i modelli di risposta adottati dalle Regioni in risposta all’emergenza Covid-19, partendo dall’analisi epidemiologica dell’evoluzione della pandemia.
+A due anni dal primo paziente in Italia con COVID-19 di Codogno, ALTEMS ha voluto elaborare un report che sintetizzasse tutti gli elementi che hanno composto la risposta alla diffusione del virus soffermandosi sui modelli istituzionali ed organizzativi adottati dalle Regioni italiane. Questa serie settimanale, che aveva già visto una Edizione Speciale dell’Instant Report a fine anno 2020 in prossimità dell’avvio della campagna vaccinale, viene presentata in forma diversa rispetto agli 85 report precedenti. Il presente Report è stato strutturato per fornire una sintesi di quanto accaduto negli ultimi 24 mesi fornendo una lettura complessiva degli eventi e delle modalità di risposta adottate dalle Regioni.

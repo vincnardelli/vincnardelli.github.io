@@ -6,6 +6,7 @@ baseurl             : "/"
 
 ### Plugins ###
 plugins:
+  - jekyll-gist
   - jemoji
 
 

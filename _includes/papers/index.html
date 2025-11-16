@@ -2,41 +2,272 @@
 <script src="{{ '/assets/js/remote-projects.js' | relative_url }}"></script>
 
 <div class="m-3 mt-5">
-  <!-- Local Projects -->
-  {% assign sorted_papers = site.papers | sort: "path" | reverse %}
-  {% for project in sorted_papers %}
-    {%- assign project_type  = "local" -%}
-    {%- assign project_id    = project.name | slugify -%}
-    {%- assign project_img   = project.image -%}
-    {%- assign project_name  = project.name -%}
-    {%- assign project_desc  = project.description -%}
-    {%- assign project_tools = project.tools -%}
-    {%- assign project_authors = project.authors -%}
-    {%- assign category = project.category -%}
-    {%- assign journal = project.journal -%}
-    {%- assign year = project.year -%}
-    {%- assign github = project.github -%}
-    {%- assign image = project.image -%}
+  <h2>Papers</h2>  
 
-    {%- if project.external_url -%}
-      {%- assign project_url = project.external_url -%}
-    {%- else -%}
-      {%- assign project_url = project.url | relative_url -%}
-    {%- endif -%}
+  <!-- Filters -->
+  <div class="row mb-4">
+    <div class="col-md-6 mb-3 mb-md-0">
+      <label for="category-filter" class="form-label"><strong>Filter by type:</strong></label>
+      <select id="category-filter" class="form-control">
+        <option value="">All types</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="year-filter" class="form-label"><strong>Filter by year:</strong></label>
+      <select id="year-filter" class="form-control">
+        <option value="">All years</option>
+      </select>
+    </div>
+  </div>
 
-    <!-- Start of row for every three items -->
-    {% cycle '<div class="row">', '', '' %}
+  <!-- Results count -->
+  <div id="results-count" class="mb-3 text-muted">
+    <span id="count-number">-</span> publications found
+  </div>
 
-      <div class="col-md-4 wow animated fadeIn" data-wow-delay=".15s">
-        {% include papers/project-card.html %}
-      </div>
+  <!-- Papers Container -->
+  <div id="papers-container">
+    <!-- Papers will be loaded here -->
+  </div>
 
-    <!-- Close the row after every three items -->
-    {% cycle '', '', '</div>' %}
-
-  {% endfor %}
-
-  <!-- Close the row if there's a remainder after dividing by three -->
-  {% cycle '', '', '</div>' %}
+  <!-- No results message -->
+  <div id="no-results" class="alert alert-info" style="display: none;">
+    No publications found with the selected filters.
+  </div>
 </div>
 
+<script>
+(function() {
+  const primaryColor = '#80bdff';
+  let allPapers = [];
+  
+  // Fetch papers data
+  fetch('{{ "/assets/papers.json" | relative_url }}')
+    .then(response => response.json())
+    .then(papers => {
+      allPapers = papers;
+      
+      // Populate filter dropdowns
+      const categories = [...new Set(papers.map(p => p.category).filter(c => c))].sort();
+      const years = [...new Set(papers.map(p => p.year).filter(y => y))].sort((a, b) => b - a);
+      
+      const categoryFilter = document.getElementById('category-filter');
+      const yearFilter = document.getElementById('year-filter');
+      
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categoryFilter.appendChild(option);
+      });
+      
+      years.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearFilter.appendChild(option);
+      });
+      
+      // Initial render
+      renderPapers(papers);
+      
+      // Add filter event listeners
+      categoryFilter.addEventListener('change', filterPapers);
+      yearFilter.addEventListener('change', filterPapers);
+    })
+    .catch(error => {
+      console.error('Error loading papers:', error);
+      document.getElementById('papers-container').innerHTML = 
+        '<p class="text-danger">Error loading papers. Please try again later.</p>';
+    });
+  
+  function renderPapers(papers) {
+    const container = document.getElementById('papers-container');
+    container.innerHTML = '';
+    
+    // Sort by date (newest first)
+    papers.sort((a, b) => {
+      const dateA = a.date ? new Date(a.date) : new Date(a.year || 0, 0, 1);
+      const dateB = b.date ? new Date(b.date) : new Date(b.year || 0, 0, 1);
+      return dateB - dateA;
+    });
+    
+    let itemCount = 0;
+    
+    papers.forEach(paper => {
+      // Start of row for every three items
+      if (itemCount % 3 === 0) {
+        const row = document.createElement('div');
+        row.className = 'row paper-row';
+        row.id = `paper-row-${Math.floor(itemCount / 3)}`;
+        container.appendChild(row);
+      }
+      
+      // Get current row
+      const currentRow = document.getElementById(`paper-row-${Math.floor(itemCount / 3)}`);
+      
+      // Create paper card column
+      const col = document.createElement('div');
+      col.className = 'col-md-4 wow animated fadeIn paper-item mb-4';
+      col.setAttribute('data-wow-delay', '.15s');
+      col.setAttribute('data-category', paper.category || '');
+      col.setAttribute('data-year', paper.year || '');
+      
+      // Determine URL (use link if available, otherwise generate from slug)
+      const paperUrl = paper.link || `/papers/${paper.slug || paper.filename || ''}`;
+      
+      // Create card with colored styling (similar to conferences)
+      col.innerHTML = `
+        <div class="wow animated fadeIn" data-wow-delay=".15s">
+          <a href="${paperUrl}" class="paper-card project card text-dark" target="${paper.link ? '_blank' : '_self'}">
+            <div class="paper-card-header" style="background: linear-gradient(120deg, ${primaryColor}, 70%, ${primaryColor} 100%);">
+              <span class="paper-category-badge">${paper.category || 'Publication'}</span>
+            </div>
+            <div class="card-body">
+              <p class="paper-meta">
+                ${paper.journal ? `<i class="fas fa-book" style="color: ${primaryColor};"></i> ${paper.journal}` : ''} 
+                ${paper.year ? ` <i class="fas fa-calendar-alt" style="color: ${primaryColor};"></i> ${paper.year}` : ''}
+              </p>
+              <h5 class="card-title paper-title">
+                ${paper.name || paper.title}
+              </h5>
+              ${paper.abstract ? `<p class="card-text paper-abstract">${paper.abstract.substring(0, 150)}${paper.abstract.length > 150 ? '...' : ''}</p>` : ''}
+            </div>
+          </a>
+        </div>
+      `;
+      
+      currentRow.appendChild(col);
+      itemCount++;
+    });
+    
+    // Update count
+    document.getElementById('count-number').textContent = papers.length;
+  }
+  
+  function filterPapers() {
+    const categoryFilter = document.getElementById('category-filter');
+    const yearFilter = document.getElementById('year-filter');
+    const papersContainer = document.getElementById('papers-container');
+    const noResults = document.getElementById('no-results');
+    const countNumber = document.getElementById('count-number');
+    
+    const selectedCategory = categoryFilter.value;
+    const selectedYear = yearFilter.value;
+    const paperItems = papersContainer.querySelectorAll('.paper-item');
+    let visibleCount = 0;
+    
+    paperItems.forEach(function(item) {
+      const category = item.getAttribute('data-category') || '';
+      const year = item.getAttribute('data-year') || '';
+      
+      const categoryMatch = !selectedCategory || category === selectedCategory;
+      const yearMatch = !selectedYear || year === selectedYear;
+      
+      if (categoryMatch && yearMatch) {
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    // Hide empty rows
+    const rows = papersContainer.querySelectorAll('.paper-row');
+    rows.forEach(function(row) {
+      const visibleItems = row.querySelectorAll('.paper-item[style=""], .paper-item:not([style*="display: none"])');
+      if (visibleItems.length === 0) {
+        row.style.display = 'none';
+      } else {
+        row.style.display = '';
+      }
+    });
+    
+    // Update count and show/hide no results message
+    countNumber.textContent = visibleCount;
+    if (visibleCount === 0) {
+      noResults.style.display = 'block';
+      papersContainer.style.display = 'none';
+    } else {
+      noResults.style.display = 'none';
+      papersContainer.style.display = 'block';
+    }
+  }
+})();
+</script>
+
+<style>
+.paper-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.paper-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(128, 189, 255, 0.3);
+  text-decoration: none;
+  color: inherit;
+}
+
+.paper-card-header {
+  padding: 12px 20px;
+  color: white;
+}
+
+.paper-category-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: white;
+}
+
+.paper-meta {
+  color: #6c757d;
+  font-size: 0.9em;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.paper-meta i {
+  width: 16px;
+  text-align: center;
+}
+
+.paper-title {
+  color: #343a40;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  font-size: 1.1em;
+}
+
+.paper-abstract {
+  color: #6c757d;
+  font-size: 0.95em;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.paper-item {
+  animation-fill-mode: both;
+}
+
+/* Ensure rows are properly displayed */
+.paper-row {
+  margin-bottom: 0;
+}
+</style>

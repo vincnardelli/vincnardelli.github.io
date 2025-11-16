@@ -11,7 +11,11 @@ layout: page
 {%- endif -%}
 
 <p class="post-metadata text-muted">
-  {{ page.date | date_to_long_string }} 
+  {% if page.year %}
+    Published: {{ page.year }}
+  {% elsif page.date %}
+    {{ page.date | date: "%Y" }}
+  {% endif %}
 
   <br>
 

@@ -1,0 +1,438 @@
+---
+layout: default
+title: Conferences
+permalink: /conferences/
+weight: 2
+---
+
+<div class="m-3 mt-5">
+  <h2>Conferences</h2>  
+  <!-- Map Section -->
+  <div class="mb-5">
+    <div id="map" style="height: 600px; width: 100%; margin-top: 20px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+  </div>
+
+  <!-- Statistics -->
+  <div class="row mb-5">
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title" id="total-conferences">-</h5>
+          <p class="card-text">Total Conferences</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title" id="total-countries">-</h5>
+          <p class="card-text">Countries Visited</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title" id="total-cities">-</h5>
+          <p class="card-text">Cities Visited</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conferences List -->
+  <div>
+    <h3 class="mb-3">List</h3>
+    <div id="conferences-container" class="mt-4">
+      <!-- Conferences will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+(function() {
+  const primaryColor = '#80bdff';
+  let conferencesData = [];
+  
+  // Fetch conferences data
+  fetch('{{ "/assets/conferences.json" | relative_url }}')
+    .then(response => response.json())
+    .then(conferences => {
+      conferencesData = conferences;
+      
+      // Initialize map
+      const map = L.map('map').setView([45.0, 10.0], 3);
+      
+      // Add CartoDB Positron tiles (light, clean basemap)
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(map);
+      
+      // Group markers by location (to handle multiple conferences in same city)
+      const locationGroups = {};
+      conferences.forEach(conf => {
+        const key = `${conf.lat}_${conf.lon}`;
+        if (!locationGroups[key]) {
+          locationGroups[key] = [];
+        }
+        locationGroups[key].push(conf);
+      });
+      
+      // Add circular markers with site primary color
+      const markerIcon = L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background-color: ${primaryColor}; width: 24px; height: 24px; border-radius: 50%; border: 4px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.25); cursor: pointer; transition: transform 0.2s;"></div>`,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+      
+      Object.values(locationGroups).forEach(group => {
+        const conf = group[0];
+        const date = new Date(conf.data);
+        const formattedDate = date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        
+        // Create popup content with site styling
+        let popupContent = '<div class="conference-popup">';
+        
+        if (group.length === 1) {
+          popupContent += `
+            <div class="popup-header" style="background: linear-gradient(120deg, ${primaryColor}, 70%, ${primaryColor} 100%);">
+              <h6 class="popup-title">${conf.nome_conferenza}</h6>
+            </div>
+            <div class="popup-body">
+              <p class="popup-info"><i class="fas fa-calendar-alt"></i> <span>${formattedDate}</span></p>
+              <p class="popup-info"><i class="fas fa-map-marker-alt"></i> <span>${conf.luogo}</span></p>
+            </div>
+          `;
+        } else {
+          popupContent += `
+            <div class="popup-header" style="background: linear-gradient(120deg, ${primaryColor}, 70%, ${primaryColor} 100%);">
+              <h6 class="popup-title"><i class="fas fa-map-marker-alt"></i> ${conf.luogo}</h6>
+              <span class="popup-badge">${group.length} conferences</span>
+            </div>
+            <div class="popup-body ${group.length > 4 ? 'popup-body-scrollable' : ''}">
+          `;
+          group.sort((a, b) => new Date(b.data) - new Date(a.data));
+          group.forEach((c, idx) => {
+            const d = new Date(c.data);
+            popupContent += `
+              <div class="popup-conference-item ${idx < group.length - 1 ? 'popup-divider' : ''}">
+                <strong class="popup-conference-name">${c.nome_conferenza}</strong>
+                <small class="popup-conference-date">${d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</small>
+              </div>
+            `;
+          });
+          popupContent += '</div>';
+        }
+        popupContent += '</div>';
+        
+        // Create marker with custom icon
+        const marker = L.marker([conf.lat, conf.lon], { icon: markerIcon }).addTo(map);
+        marker.bindPopup(popupContent);
+      });
+      
+      // Fit map to show all markers
+      if (conferences.length > 0) {
+        const bounds = conferences.map(c => [c.lat, c.lon]);
+        map.fitBounds(bounds, { padding: [50, 50] });
+      }
+      
+      // Calculate statistics
+      const totalConferences = conferences.length;
+      const countries = new Set();
+      const cities = new Set();
+      
+      conferences.forEach(conf => {
+        const parts = conf.luogo.split(',');
+        if (parts.length > 1) {
+          countries.add(parts[parts.length - 1].trim());
+        }
+        cities.add(conf.luogo);
+      });
+      
+      document.getElementById('total-conferences').textContent = totalConferences;
+      document.getElementById('total-countries').textContent = countries.size;
+      document.getElementById('total-cities').textContent = cities.size;
+      
+      // Render conferences list
+      renderConferencesList(conferences);
+    })
+    .catch(error => {
+      console.error('Error loading conferences:', error);
+      document.getElementById('map').innerHTML = 
+        '<div class="alert alert-danger">Error loading map. Please try again later.</div>';
+      document.getElementById('conferences-container').innerHTML = 
+        '<p class="text-danger">Error loading conferences. Please try again later.</p>';
+    });
+  
+  function renderConferencesList(conferences) {
+    // Sort by date (newest first)
+    conferences.sort((a, b) => new Date(b.data) - new Date(a.data));
+    
+    const container = document.getElementById('conferences-container');
+    let itemCount = 0;
+    
+    conferences.forEach(conf => {
+      const date = new Date(conf.data);
+      const year = date.getFullYear();
+      const formattedDate = date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      
+      // Start of row for every three items
+      if (itemCount % 3 === 0) {
+        const row = document.createElement('div');
+        row.className = 'row conference-row';
+        row.id = `conference-row-${Math.floor(itemCount / 3)}`;
+        container.appendChild(row);
+      }
+      
+      // Get current row
+      const currentRow = document.getElementById(`conference-row-${Math.floor(itemCount / 3)}`);
+      
+      // Create conference card column
+      const col = document.createElement('div');
+      col.className = 'col-md-4 wow animated fadeIn conference-item mb-4';
+      col.setAttribute('data-wow-delay', '.15s');
+      col.setAttribute('data-year', year);
+      
+      // Create card with same style as papers but with light blue accent
+      col.innerHTML = `
+        <div class="wow animated fadeIn" data-wow-delay=".15s">
+          <div class="conference-card project card text-dark">
+            <div class="card-body">
+              <p class="conference-meta">${formattedDate}</p>
+              <h5 class="card-title conference-title">
+                ${conf.nome_conferenza}
+              </h5>
+              <p class="card-text conference-location">
+                <i class="fas fa-map-marker-alt" style="color: ${primaryColor};"></i> ${conf.luogo}
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      currentRow.appendChild(col);
+      itemCount++;
+    });
+  }
+})();
+</script>
+
+<style>
+.leaflet-container {
+  z-index: 1;
+  font-family: 'Poppins', 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.custom-marker {
+  background: transparent;
+  border: none;
+}
+
+.custom-marker div:hover {
+  transform: scale(1.15);
+}
+
+#map {
+  min-height: 600px;
+}
+
+.card {
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Conference Popup Styling */
+.conference-popup {
+  font-family: 'Poppins', 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 480px;
+  min-width: 360px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.popup-header {
+  padding: 18px 24px;
+  color: white;
+  position: relative;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 1.15em;
+  font-weight: 600;
+  color: white;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.popup-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.popup-body {
+  padding: 20px 24px;
+  background: white;
+}
+
+.popup-body-scrollable {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.popup-info {
+  margin: 8px 0;
+  color: #343a40;
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.popup-info i {
+  color: #80bdff;
+  width: 18px;
+  text-align: center;
+}
+
+.popup-info span {
+  color: #6c757d;
+}
+
+.popup-conference-item {
+  padding: 12px 0;
+}
+
+.popup-conference-item.popup-divider {
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 4px;
+  padding-bottom: 14px;
+}
+
+.popup-conference-name {
+  display: block;
+  color: #343a40;
+  font-size: 0.98em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.popup-conference-date {
+  display: block;
+  color: #6c757d;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+
+/* Leaflet popup customization */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 500px;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  width: auto !important;
+  min-width: 360px;
+}
+
+.leaflet-popup-tip {
+  background: white;
+}
+
+/* Custom scrollbar for popup body */
+.popup-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.popup-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.popup-body::-webkit-scrollbar-thumb {
+  background: #80bdff;
+  border-radius: 4px;
+}
+
+.popup-body::-webkit-scrollbar-thumb:hover {
+  background: #5aa3e8;
+}
+
+/* Conference List Card Styling */
+.conference-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  border: 1px solid #e9ecef;
+}
+
+.conference-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(128, 189, 255, 0.3);
+  border-color: #80bdff;
+}
+
+.conference-meta {
+  color: #6c757d;
+  font-size: 0.9em;
+  margin-bottom: 0.5rem;
+}
+
+.conference-title {
+  color: #343a40;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.conference-location {
+  color: #6c757d;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.conference-location i {
+  font-size: 1.1em;
+}
+
+.conference-item {
+  animation-fill-mode: both;
+}
+
+/* Ensure rows are properly displayed */
+.conference-row {
+  margin-bottom: 0;
+}
+</style>

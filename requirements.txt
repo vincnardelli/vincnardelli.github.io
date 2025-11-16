@@ -1,0 +1,2 @@
+# No external dependencies required - script uses Python built-in libraries (urllib, json)
+
