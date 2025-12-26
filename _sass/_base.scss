@@ -1,15 +1,50 @@
 html{
   padding-left: calc(100vw - 100%);
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 18px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+// Main container with glassmorphism
+main.container {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: $rounded-borders-large;
+  padding: 2rem;
+  margin-top: 2rem !important;
+  margin-bottom: 2rem;
+  box-shadow: $shadow-soft;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: $transition-smooth;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+    border-radius: $rounded-borders;
+  }
 }
 
 .badge {
   font-weight: 500;
   font-size: 14px;
+  background: rgba(128, 189, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(128, 189, 255, 0.3);
+  border-radius: 12px;
+  padding: 6px 12px;
+  transition: $transition-smooth;
+  
+  &:hover {
+    background: rgba(128, 189, 255, 0.3);
+    transform: scale(1.05);
+  }
 }
 
 .navbar-brand{
@@ -24,6 +59,11 @@ body {
 
 h1{
   padding-bottom: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #343a40 0%, #80bdff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .intro{
@@ -32,6 +72,20 @@ h1{
   line-height: 1.5;
   margin-bottom: 100px;
   margin-top: 150px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: $rounded-borders-large;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: $shadow-soft;
+  transition: $transition-smooth;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: $shadow-hover;
+    transform: translateY(-5px);
+  }
 }
 
 .intro_big{
@@ -47,7 +101,7 @@ h1{
   background-repeat: no-repeat;
   background-size: 100% 0.15em;
   background-position: 0 102%;
-  transition: background-size 0.25s ease-in,
+  transition: background-size 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .link-after3  {
@@ -88,4 +142,71 @@ h1{
 .timeline-item h5{
   margin-bottom: 20px;
   font-weight: 400;
+}
+
+// Button styling with liquid design
+.btn {
+  border-radius: 16px;
+  padding: 10px 24px;
+  font-weight: 500;
+  transition: $transition-smooth;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-soft;
+  }
+  
+  &.btn-primary,
+  &.btn-outline-primary {
+    background: rgba(128, 189, 255, 0.2);
+    border-color: rgba(128, 189, 255, 0.4);
+    color: $primary;
+    
+    &:hover {
+      background: rgba(128, 189, 255, 0.4);
+      border-color: rgba(128, 189, 255, 0.6);
+      box-shadow: 0 8px 24px rgba(128, 189, 255, 0.3);
+    }
+  }
+}
+
+// Additional liquid design enhancements
+* {
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(128, 189, 255, 0.3);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    
+    &:hover {
+      background: rgba(128, 189, 255, 0.5);
+    }
+  }
+}
+
+// Smooth fade-in animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wow.animated.fadeIn {
+  animation: fadeInUp 0.6s ease-out;
 }

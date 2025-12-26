@@ -32,6 +32,22 @@
     "slug": "2025_01_analisi_di_impatto_economico_delle_vaccinazioni_covid"
   },
   {
+    "name": "Defining Ad-Hoc Sampling Designs for Small Area Estimation",
+    "title": "Defining Ad-Hoc Sampling Designs for Small Area Estimation",
+    "category": "Journal Article",
+    "year": "2025",
+    "authors": "Piero Demetrio Falorsi, Stefano Falorsi, Vincenzo Nardelli, Paolo Righi",
+    "journal": "JOURNAL OF OFFICIAL STATISTICS",
+    "abstract": "The paper sketches a proper statistical setting necessary to define the sampling design for Small Area Estimation (SAE). Since SAE techniques are commonly used in official statistics, relying on appropriate sampling designs to improve the quality of estimates becomes crucial. The sampling design is based on both allocation and sampling selection. The allocation step solves a non-standard problem necessary for finding the minimum-cost solution that controls the accuracy of the model-based small area estimator. The sampling selection ensures the planned sample sizes for each level of random effects affecting the variables of interest.",
+    "doi": "10.1177/0282423x251388201",
+    "isbn": null,
+    "url": "https://publicatt.unicatt.it/",
+    "date": "2025-01-01",
+    "link": "https://doi.org/10.1177/0282423x251388201",
+    "filename": "2025_01_defining_ad_hoc_sampling_designs_for_small",
+    "slug": "2025_01_defining_ad_hoc_sampling_designs_for_small"
+  },
+  {
     "name": "Evaluating Bias in Big Data Using H3 Spatial Indexing",
     "title": "Evaluating Bias in Big Data Using H3 Spatial Indexing",
     "category": "Journal Article",

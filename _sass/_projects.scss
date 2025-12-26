@@ -1,20 +1,39 @@
 .project.card {
-  border-radius: $rounded-borders;
+  border-radius: $rounded-borders-large;
   text-decoration: none !important;
   margin: 10px auto;
+  background: $glass-bg;
+  backdrop-filter: $glass-blur;
+  -webkit-backdrop-filter: $glass-blur;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: $shadow-soft;
+  overflow: hidden;
+  transition: $transition-smooth;
 
   .card-img-top {
-    border-radius: $rounded-borders $rounded-borders 0 0;
+    border-radius: $rounded-borders-large $rounded-borders-large 0 0;
+    transition: $transition-smooth;
   }
 
-  transition: transform 200ms;
-
   &:hover:not(.post) {
-    transform: translateY(-4px);
-    box-shadow: -2px 8px 20px -12px rgba(0, 0, 0, 0.24);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: $shadow-hover;
+    border-color: rgba(128, 189, 255, 0.4);
+    
+    .card-img-top {
+      transform: scale(1.05);
+    }
   }
 }
 
 .card-title{
   line-height: 1.5;
+  font-weight: 600;
+  transition: $transition-smooth;
+}
+
+.card-body {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
