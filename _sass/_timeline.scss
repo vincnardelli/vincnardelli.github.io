@@ -1,78 +1,46 @@
 .timeline-body {
   position: relative;
-  background: $glass-bg;
-  backdrop-filter: $glass-blur;
-  -webkit-backdrop-filter: $glass-blur;
-  border-radius: 0 $rounded-borders-large $rounded-borders-large 0;
+  background-color: $light;
+  border-radius: 0 $rounded-borders $rounded-borders 0;
   padding: 5px 0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: $shadow-soft;
 
   &:after {
     // Left Border
     content: "";
     width: 4px;
     height: 100%;
-    background: linear-gradient(180deg, $primary 0%, lighten($primary, 20%) 100%);
+    background-color: $primary;
     position: absolute;
     left: -4px;
     top: 0;
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(128, 189, 255, 0.5);
   }
 
   .timeline-item {
     position: relative;
-    transition: $transition-smooth;
-
-    &:hover {
-      transform: translateX(5px);
-    }
 
     &:after {
       // Circle
       content: "";
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       border: 4px solid $primary;
-      background: $glass-bg;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background-color: $light;
       position: absolute;
-      left: -14px;
+      left: -12px;
       top: 8px;
       z-index: 10;
-      box-shadow: 0 0 15px rgba(128, 189, 255, 0.6);
-      transition: $transition-smooth;
-    }
-
-    &:hover::after {
-      transform: scale(1.2);
-      box-shadow: 0 0 20px rgba(128, 189, 255, 0.8);
     }
 
     .content {
       margin: 40px;
-      padding: 20px;
       padding-bottom: 20px;
-      border-bottom: 1px dashed rgba(108, 117, 125, 0.3);
-      background: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border-radius: 16px;
-      transition: $transition-smooth;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.5);
-        transform: translateX(5px);
-      }
+      border-bottom: 1px dashed $dark;
 
       .date {
         margin-top: -5px;
         margin-bottom: 15px;
         color: #6c757d;
-        font-weight: 500;
       }
     }
   }

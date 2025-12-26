@@ -3,62 +3,27 @@
   display: block;
   height: 0.15em;
   background: $primary;
-  border-radius: 2px;
-}
-
-.navbar {
-  background: $glass-bg !important;
-  backdrop-filter: $glass-blur;
-  -webkit-backdrop-filter: $glass-blur;
-  box-shadow: $shadow-soft;
-  border-radius: 0 0 $rounded-borders $rounded-borders;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 1rem 2rem;
-  margin-bottom: 2rem;
-  transition: $transition-smooth;
-  
-  &:hover {
-    box-shadow: $shadow-hover;
-  }
 }
 
 .nav-link,
 .navbar-brand {
-  position: relative;
-  transition: $transition-smooth;
-  border-radius: 12px;
-  padding: 0.5rem 1rem !important;
-  
   &::after {
     @extend .link-after;
     width: 0;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    transition: width 0.35s;
   }
 
-  &:hover {
-    background: rgba(128, 189, 255, 0.1);
-    transform: translateY(-2px);
-    
-    &::after {
-      width: 80%;
-    }
+  &:hover::after {
+    width: 100%;
   }
 }
 
 .nav-item.active {
-  font-weight: 600;
+  font-weight: bold;
 
-  .nav-link {
-    background: rgba(128, 189, 255, 0.15);
-    
-    &::after {
-      @extend .link-after;
-      width: 80% !important;
-    }
+  &::after {
+    @extend .link-after;
+    width: 100% !important;
   }
 }
 

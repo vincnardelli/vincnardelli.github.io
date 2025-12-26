@@ -3,31 +3,15 @@
 }
 
 .post.card {
-  border-radius: $rounded-borders-large;
+  border-radius: $rounded-borders;
   text-decoration: none !important;
   padding: 15px;
   height: 100%;
-  background: $glass-bg;
-  backdrop-filter: $glass-blur;
-  -webkit-backdrop-filter: $glass-blur;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: $shadow-soft;
-  transition: $transition-smooth;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: $shadow-hover;
-    border-color: rgba(128, 189, 255, 0.4);
-  }
 
   .card-footer {
     font-size: 14px;
     margin: 0 -15px -15px -15px;
     padding: 15px 35px;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 0 0 $rounded-borders-large $rounded-borders-large;
   }
 }
 

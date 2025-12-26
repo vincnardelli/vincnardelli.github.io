@@ -1,41 +1,12 @@
-footer {
-  background: $glass-bg;
-  backdrop-filter: $glass-blur;
-  -webkit-backdrop-filter: $glass-blur;
-  border-radius: $rounded-borders $rounded-borders 0 0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: $shadow-soft;
-  margin-top: 3rem;
-  padding: 2rem 0;
-}
-
 .social {
   text-decoration: none !important;
-  transition: $transition-smooth;
-  display: inline-block;
-  
-  &:hover {
-    transform: translateY(-3px) scale(1.1);
-  }
 }
 
 #attribution {
-  opacity: 0.6;
-  transition: $transition-smooth;
-  
+  opacity: 0.5;
   a {
     text-decoration: none;
     font-weight: bold;
-    transition: $transition-smooth;
-    
-    &:hover {
-      opacity: 1;
-      color: $primary;
-    }
-  }
-  
-  &:hover {
-    opacity: 1;
   }
 }
 
@@ -46,12 +17,5 @@ footer {
     position: fixed;
     bottom: 56px;
     right: 22px;
-    background: $glass-bg;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 12px 16px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: $shadow-soft;
   }
 }
