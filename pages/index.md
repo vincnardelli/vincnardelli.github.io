@@ -5,7 +5,7 @@ permalink: /
 ---
 
 <p class="intro pb-6 wow fadeIn"><span class="intro_big">Hi, my name is <span class="link-after3 wow headShake"><b>Vincenzo Nardelli</b></span><br>
-<span class="intro pb-5 wow fadeIn" data-wow-delay="2s">and I'm currently a <span class="link-after2">Research Fellow in Statistics</span> at <span class="link-after2">Università Cattolica del Sacro Cuore</span> in Rome</span>. </span></p>
+<span class="intro pb-5 wow fadeIn" data-wow-delay="2s">and I'm currently an <span class="link-after2">Assistant Professor</span> at <span class="link-after2">Università Cattolica del Sacro Cuore</span> in Rome</span>. </span></p>
 
 
 <!--
