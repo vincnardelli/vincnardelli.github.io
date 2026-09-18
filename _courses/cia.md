@@ -1,5 +1,5 @@
 ---
-name: Coding and Big Data
+name: Coding e Fondamenti di Intelligenza Artificiale
 tools: [nothing, important]
 image: https://www.sketchappsources.com/resources/source-image/project-neon-groove-music-ui.png
 description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
