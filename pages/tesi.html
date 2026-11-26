@@ -1,0 +1,913 @@
+---
+layout: default
+title: Richiesta tesi
+permalink: /tesi/
+---
+
+{%- assign tf = site.thesis_form -%}
+{%- assign configured = true -%}
+{%- if tf.endpoint == nil or tf.endpoint contains "YOUR_FORM_ID" -%}{%- assign configured = false -%}{%- endif -%}
+
+<div class="tw" id="tw">
+
+  <!-- Barra di avanzamento -->
+  <div class="tw-progress" aria-hidden="true">
+    <div class="tw-progress-meta">
+      <span class="tw-progress-label">{% include t.html en="Step" it="Passo" %} <span id="tw-step-num">1</span> {% include t.html en="of" it="di" %} <span id="tw-step-tot">6</span></span>
+      <span class="tw-progress-name" id="tw-step-name"></span>
+    </div>
+    <div class="tw-progress-track"><div class="tw-progress-bar" id="tw-bar"></div></div>
+  </div>
+
+  <form id="thesis-form" action="{{ tf.endpoint }}" method="POST" novalidate>
+    <input type="hidden" name="_subject" value="Nuova richiesta tesi">
+    <input type="text" name="_gotcha" class="tw-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <!-- 0 · Introduzione -->
+    <section class="tw-step is-active" data-name="Introduzione" data-name-en="Introduction">
+      <div class="tw-ucsc">
+        <i class="fas fa-university"></i>
+        <span>Università Cattolica del Sacro Cuore · {% include t.html en="Rome" it="Roma" %}</span>
+      </div>
+      <h1 class="tw-title">{% include t.html en="Write your thesis with me" it="Fai la tesi con me" %}</h1>
+      <p class="tw-lead" data-l="en">
+        Thesis applications are <strong>open only to students of my courses at Università Cattolica del Sacro Cuore</strong>:
+        <em>Coding e Fondamenti di Intelligenza Artificiale</em> for a <strong>bachelor's thesis</strong> and
+        <em>Metodi Statistici per le Decisioni</em> for a <strong>master's thesis</strong>.
+        It only takes a few minutes.
+      </p>
+      <p class="tw-lead" data-l="it">
+        Richiesta di tesi <strong>riservata agli studenti dei miei corsi all'Università Cattolica del Sacro Cuore</strong>:
+        <em>Coding e Fondamenti di Intelligenza Artificiale</em> per la <strong>tesi triennale</strong> e
+        <em>Metodi Statistici per le Decisioni</em> per la <strong>tesi magistrale</strong>.
+        Bastano pochi minuti.
+      </p>
+
+      <div class="tw-how">
+        <div class="tw-how-item">
+          <span class="tw-how-icon"><i class="fas fa-paper-plane"></i></span>
+          <div><strong>{% include t.html en="Application" it="Richiesta" %}</strong><p><span data-l="en">Fill in this form at least {{ tf.min_months }} months before your graduation session.</span><span data-l="it">Compili questa procedura almeno {{ tf.min_months }} mesi prima della sessione di laurea.</span></p></div>
+        </div>
+        <div class="tw-how-item">
+          <span class="tw-how-icon"><i class="fas fa-comments"></i></span>
+          <div><strong>{% include t.html en="First meeting" it="Incontro iniziale" %}</strong><p>{% include t.html en="I get in touch for a first meeting and we define the topic and data together." it="Ti contatto per un primo colloquio e definiamo insieme argomento e dati." %}</p></div>
+        </div>
+        <div class="tw-how-item">
+          <span class="tw-how-icon"><i class="fas fa-layer-group"></i></span>
+          <div><strong>{% include t.html en="Chapter by chapter" it="Consegne per capitoli" %}</strong><p>{% include t.html en="You send one chapter at a time and get feedback before moving on to the next." it="Invii un capitolo alla volta e ricevi i commenti prima di passare al successivo." %}</p></div>
+        </div>
+        <div class="tw-how-item">
+          <span class="tw-how-icon"><i class="fas fa-code"></i></span>
+          <div><strong>{% include t.html en="Reproducible code" it="Codice riproducibile" %}</strong><p>{% include t.html en="Analyses are done in R or Python, and the code is handed in with the thesis." it="Le analisi si fanno in R o Python e il codice si consegna insieme alla tesi." %}</p></div>
+        </div>
+      </div>
+
+      {% unless configured %}
+      <div class="tw-alert">{% include t.html en="The form is not active yet. In the meantime, please contact me directly." it="Il modulo non è ancora attivo. Nel frattempo contattami direttamente." %}</div>
+      {% endunless %}
+
+      <button type="button" class="tw-btn tw-btn-primary tw-btn-lg" data-next>
+        {% include t.html en="Start" it="Inizia" %} <i class="fas fa-arrow-right"></i>
+      </button>
+
+      <p class="tw-links">
+        {% include t.html en="Faculty of Economics guides:" it="Guide della Facoltà di Economia:" %}
+        <a href="https://studenticattolica.unicatt.it/Guida%20prova%20finale%20LT%20Economia.pdf" target="_blank" rel="noopener">{% include t.html en="bachelor's final exam" it="prova finale triennale" %}</a> ·
+        <a href="https://studenticattolica.unicatt.it/Guida%20prova%20finale%20LM%20Economia.pdf" target="_blank" rel="noopener">{% include t.html en="master's final exam" it="prova finale magistrale" %}</a> ·
+        {% include t.html en="deadlines" it="scadenze" %} <a href="https://studenticattolica.unicatt.it/procedure-requisiti-e-scadenze-economia-triennali" target="_blank" rel="noopener">LT</a> /
+        <a href="https://studenticattolica.unicatt.it/procedure-requisiti-e-scadenze-economia-lm" target="_blank" rel="noopener">LM</a>
+      </p>
+    </section>
+
+    <!-- 1 · Corso -->
+    <section class="tw-step" data-name="Corso" data-name-en="Course">
+      <h2 class="tw-q">{% include t.html en="Which course did you take at Università Cattolica del Sacro Cuore?" it="Quale corso hai seguito all'Università Cattolica del Sacro Cuore?" %}</h2>
+      <p class="tw-hint">{% include t.html en="The course determines the type of thesis. You can apply even if you have not taken the exam yet." it="Il corso determina il tipo di tesi. Puoi fare richiesta anche se non hai ancora sostenuto l'esame." %}</p>
+      <input type="hidden" name="tipo_tesi" id="tipo_tesi">
+      <div class="tw-choices tw-cols-2">
+        <label class="tw-choice">
+          <input type="radio" name="insegnamento" value="CIA" data-level="Triennale" required>
+          <span class="tw-card">
+            <span class="tw-card-icon"><i class="fas fa-laptop-code"></i></span>
+            <span class="tw-card-level"><i class="fas fa-book-open"></i> {% include t.html en="Bachelor's thesis" it="Tesi triennale" %}</span>
+            <span class="tw-card-tag">CIA</span>
+            <span class="tw-card-title">Coding e Fondamenti di Intelligenza Artificiale</span>
+            <span class="tw-card-desc">{% include t.html en="Bachelor's degree course. Programming, algorithms and the basics of artificial intelligence applied to data analysis." it="Corso della laurea triennale. Programmazione, algoritmi e basi dell'intelligenza artificiale applicate all'analisi dei dati." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="radio" name="insegnamento" value="MSD" data-level="Magistrale" required>
+          <span class="tw-card">
+            <span class="tw-card-icon"><i class="fas fa-chart-line"></i></span>
+            <span class="tw-card-level"><i class="fas fa-user-graduate"></i> {% include t.html en="Master's thesis" it="Tesi magistrale" %}</span>
+            <span class="tw-card-tag">MSD</span>
+            <span class="tw-card-title">Metodi Statistici per le Decisioni</span>
+            <span class="tw-card-desc">{% include t.html en="Master's degree course. Statistics and data analysis to support business decisions, with Python." it="Corso della laurea magistrale. Statistica e analisi dei dati a supporto delle decisioni aziendali, con Python." %}</span>
+          </span>
+        </label>
+      </div>
+      <p class="tw-error">{% include t.html en="Choose a course to continue." it="Scegli un corso per continuare." %}</p>
+    </section>
+
+    <!-- 3 · Sessione -->
+    <section class="tw-step" data-name="Sessione" data-name-en="Session">
+      <h2 class="tw-q">{% include t.html en="Which session do you plan to graduate in?" it="In quale sessione pensi di laurearti?" %}</h2>
+      <p class="tw-hint"><span data-l="en">I accept applications at least {{ tf.min_months }} months before the session: only the sessions still available are listed.</span><span data-l="it">Accetto richieste almeno {{ tf.min_months }} mesi prima della sessione: qui trovi solo quelle ancora disponibili.</span></p>
+      <div class="tw-choices tw-cols-3" id="tw-sessions"></div>
+      <p class="tw-error">{% include t.html en="Choose a session to continue." it="Scegli una sessione per continuare." %}</p>
+    </section>
+
+    <!-- 4 · Area -->
+    <section class="tw-step" data-name="Area di ricerca" data-name-en="Research area">
+      <h2 class="tw-q">{% include t.html en="What would you like to work on?" it="Su cosa ti piacerebbe lavorare?" %}</h2>
+      <p class="tw-hint">{% include t.html en="You can choose more than one." it="Puoi sceglierne più di una." %}</p>
+      <div class="tw-choices tw-cols-2" data-min-one>
+        <label class="tw-choice">
+          <input type="checkbox" name="area" value="AI e machine learning">
+          <span class="tw-card tw-card-featured">
+            <span class="tw-card-icon"><i class="fas fa-brain"></i></span>
+            <span class="tw-card-badge tw-badge-new"><i class="fas fa-bolt"></i> {% include t.html en="Innovative" it="Innovativo" %}</span>
+            <span class="tw-card-title">{% include t.html en="Artificial intelligence and machine learning" it="Intelligenza artificiale e machine learning" %}</span>
+            <span class="tw-card-desc">{% include t.html en="AI and machine learning models applied to economic and business problems." it="Modelli di AI e machine learning applicati a problemi economici e aziendali." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="area" value="Econometria spaziale">
+          <span class="tw-card tw-card-featured">
+            <span class="tw-card-icon"><i class="fas fa-map-marked-alt"></i></span>
+            <span class="tw-card-badge"><i class="fas fa-star"></i> {% include t.html en="My research field" it="Il mio ambito di ricerca" %}</span>
+            <span class="tw-card-title">{% include t.html en="Spatial econometrics" it="Econometria spaziale" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Regional analysis, geographic data and models that account for space." it="Analisi territoriale, dati geografici e modelli che tengono conto dello spazio." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="area" value="Data analysis">
+          <span class="tw-card">
+            <span class="tw-card-icon"><i class="fas fa-chart-bar"></i></span>
+            <span class="tw-card-title">Data analysis</span>
+            <span class="tw-card-desc">{% include t.html en="Statistics for business decisions, predictive analytics and forecasting on a real dataset, in R or Python." it="Statistica per le decisioni aziendali, analisi predittiva e forecasting su un dataset reale, in R o Python." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="area" value="Proposta personale">
+          <span class="tw-card">
+            <span class="tw-card-icon"><i class="fas fa-lightbulb"></i></span>
+            <span class="tw-card-title">{% include t.html en="I have my own idea" it="Ho un'idea mia" %}</span>
+            <span class="tw-card-desc">{% include t.html en="A different topic, as long as it is close to the courses: you'll describe it shortly." it="Un tema diverso, purché vicino ai corsi: me lo racconti tra poco." %}</span>
+          </span>
+        </label>
+      </div>
+      <p class="tw-error">{% include t.html en="Choose at least one area to continue." it="Scegli almeno un'area per continuare." %}</p>
+    </section>
+
+    <!-- 4b · Approccio e obiettivi -->
+    <section class="tw-step" data-name="Approccio" data-name-en="Approach">
+      <h2 class="tw-q">{% include t.html en="What kind of research do you want to do?" it="Che tipo di ricerca vuoi fare?" %}</h2>
+      <p class="tw-hint">{% include t.html en="Move the slider: there is no right answer, it helps me understand which thesis suits you best." it="Sposta il cursore: non c'è una risposta giusta, serve a capire che tesi ti assomiglia di più." %}</p>
+
+      <div class="tw-slider">
+        <div class="tw-slider-ends">
+          <span><i class="fas fa-flask"></i> {% include t.html en="Methodological" it="Metodologica" %}</span>
+          <span>{% include t.html en="Applied" it="Applicata" %} <i class="fas fa-industry"></i></span>
+        </div>
+        <input type="range" id="approccio" min="1" max="5" step="1" value="3" class="tw-range" data-levels="approccio"
+               aria-label="Methodological or applied research" data-en-aria-label="Methodological or applied research" data-it-aria-label="Ricerca metodologica o applicata">
+        <div class="tw-slider-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        <input type="hidden" name="approccio">
+        <div class="tw-slider-text" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Competenze -->
+    <section class="tw-step" data-name="Competenze" data-name-en="Skills">
+      <h2 class="tw-q">{% include t.html en="How comfortable are you with code and AI?" it="Come te la cavi con codice e AI?" %}</h2>
+      <p class="tw-hint">{% include t.html en="Be honest: this is not an evaluation, it helps me tailor the thesis to your level." it="Rispondi con sincerità: non è una valutazione, serve a calibrare la tesi sul tuo livello." %}</p>
+
+      <div class="tw-slider">
+        <div class="tw-slider-head"><i class="fas fa-code"></i> {% include t.html en="Programming" it="Programmazione" %} <span>R, Python</span></div>
+        <div class="tw-slider-ends"><span>{% include t.html en="Never coded" it="Mai programmato" %}</span><span>{% include t.html en="Advanced" it="Avanzato" %}</span></div>
+        <input type="range" min="1" max="5" step="1" value="3" class="tw-range" data-levels="programmazione"
+               aria-label="Programming level" data-en-aria-label="Programming level" data-it-aria-label="Livello di programmazione">
+        <div class="tw-slider-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        <input type="hidden" name="livello_programmazione">
+        <div class="tw-slider-text" aria-live="polite"></div>
+      </div>
+
+      <div class="tw-slider">
+        <div class="tw-slider-head"><i class="fas fa-robot"></i> {% include t.html en="Use of artificial intelligence" it="Uso dell'intelligenza artificiale" %} <span>ChatGPT, Claude, Copilot…</span></div>
+        <div class="tw-slider-ends"><span>{% include t.html en="Never used" it="Mai usata" %}</span><span>{% include t.html en="Advanced" it="Avanzato" %}</span></div>
+        <input type="range" min="1" max="5" step="1" value="3" class="tw-range" data-levels="ai"
+               aria-label="AI usage level" data-en-aria-label="AI usage level" data-it-aria-label="Livello di utilizzo dell'intelligenza artificiale">
+        <div class="tw-slider-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        <input type="hidden" name="livello_ai">
+        <div class="tw-slider-text" aria-live="polite"></div>
+      </div>
+
+      <div class="tw-field">
+        <label>{% include t.html en="Tools you have used" it="Strumenti che hai già usato" %} <span class="tw-opt">{% include t.html en="optional" it="facoltativo" %}</span></label>
+        <div class="tw-chips">
+          <label class="tw-chip"><input type="checkbox" name="strumenti" value="R"><span>R</span></label>
+          <label class="tw-chip"><input type="checkbox" name="strumenti" value="Python"><span>Python</span></label>
+          <label class="tw-chip"><input type="checkbox" name="strumenti" value="Excel"><span>Excel</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cosa migliorare -->
+    <section class="tw-step" data-name="Obiettivi" data-name-en="Goals">
+      <h2 class="tw-q">{% include t.html en="What do you want to improve during your thesis?" it="Cosa vuoi migliorare durante la tesi?" %}</h2>
+      <p class="tw-hint">{% include t.html en="Pick everything you are interested in: I'll take it into account when shaping the work." it="Scegli tutto quello che ti interessa: ne terrò conto nel definire il lavoro." %}</p>
+      <div class="tw-choices tw-cols-3">
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Programmazione">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-code"></i></span>
+            <span class="tw-card-title">{% include t.html en="Programming" it="Programmazione" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Writing cleaner, more independent code in R or Python." it="Scrivere codice in R o Python più pulito e autonomo." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Uso dell'AI">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-robot"></i></span>
+            <span class="tw-card-title">{% include t.html en="Using AI well" it="Usare bene l'AI" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Getting help from AI for code and analysis, while checking the results." it="Farsi aiutare dall'AI per codice e analisi, verificando i risultati." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Statistica ed econometria">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-square-root-alt"></i></span>
+            <span class="tw-card-title">{% include t.html en="Statistics and econometrics" it="Statistica ed econometria" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Choosing the right model and interpreting it." it="Scegliere il modello giusto e interpretarlo." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Machine learning">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-brain"></i></span>
+            <span class="tw-card-title">{% include t.html en="Machine learning" it="Machine learning" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Predictive models, validation and model comparison." it="Modelli predittivi, validazione e confronto tra modelli." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Dati reali">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-database"></i></span>
+            <span class="tw-card-title">{% include t.html en="Real data" it="Dati reali" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Finding, collecting and cleaning real data." it="Trovare, raccogliere e pulire dati veri." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Visualizzazione">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-chart-pie"></i></span>
+            <span class="tw-card-title">{% include t.html en="Visualization" it="Visualizzazione" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Clear and effective charts and maps." it="Grafici e mappe chiari ed efficaci." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Scrittura scientifica">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-pen-nib"></i></span>
+            <span class="tw-card-title">{% include t.html en="Scientific writing" it="Scrittura scientifica" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Structuring and writing a rigorous text, with references." it="Strutturare e scrivere un testo rigoroso, con bibliografia." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Presentazione">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+            <span class="tw-card-title">{% include t.html en="Presenting results" it="Presentare i risultati" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Explaining an analysis to a non-technical audience." it="Raccontare un'analisi a chi non è tecnico." %}</span>
+          </span>
+        </label>
+        <label class="tw-choice">
+          <input type="checkbox" name="migliorare" value="Autonomia">
+          <span class="tw-card tw-card-compact">
+            <span class="tw-card-icon"><i class="fas fa-tasks"></i></span>
+            <span class="tw-card-title">{% include t.html en="Working independently" it="Lavorare in autonomia" %}</span>
+            <span class="tw-card-desc">{% include t.html en="Managing a project from idea to delivery." it="Gestire un progetto dall'idea alla consegna." %}</span>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Dopo la laurea -->
+    <section class="tw-step" data-name="Dopo la laurea" data-name-en="After graduation">
+      <h2 class="tw-q">{% include t.html en="What would you like to do after graduating?" it="Cosa vorresti fare dopo la laurea?" %}</h2>
+      <p class="tw-hint">{% include t.html en="It helps me suggest a thesis that is also useful for what comes next." it="Mi aiuta a proporti una tesi utile anche per quello che verrà dopo." %}</p>
+      <div class="tw-field">
+        <label>{% include t.html en="Which path?" it="Quale percorso?" %} <span class="tw-opt">{% include t.html en="more than one is fine" it="anche più di uno" %}</span></label>
+        <div class="tw-chips" id="tw-future-chips">
+          <label class="tw-chip" data-only="CIA"><input type="checkbox" name="dopo_laurea" value="Laurea magistrale"><span>{% include t.html en="Master's degree" it="Laurea magistrale" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="dopo_laurea" value="Master"><span>{% include t.html en="Master" it="Master" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="dopo_laurea" value="Dottorato"><span>{% include t.html en="PhD" it="Dottorato" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="dopo_laurea" value="Lavorare"><span>{% include t.html en="Work" it="Lavorare" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="dopo_laurea" value="Non so ancora"><span>{% include t.html en="Not sure yet" it="Non so ancora" %}</span></label>
+        </div>
+      </div>
+
+      <div class="tw-field">
+        <label>{% include t.html en="Which sector do you see yourself in?" it="In quale settore ti vedi?" %} <span class="tw-opt">{% include t.html en="more than one is fine" it="anche più di uno" %}</span></label>
+        <div class="tw-chips">
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Banche e finanza"><span><i class="fas fa-landmark"></i> {% include t.html en="Banking and finance" it="Banche e finanza" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Assicurazioni"><span><i class="fas fa-shield-alt"></i> {% include t.html en="Insurance" it="Assicurazioni" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Consulenza"><span><i class="fas fa-briefcase"></i> {% include t.html en="Consulting" it="Consulenza" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Tech e startup"><span><i class="fas fa-microchip"></i> {% include t.html en="Tech and startups" it="Tech e startup" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Marketing e retail"><span><i class="fas fa-shopping-bag"></i> {% include t.html en="Marketing and retail" it="Marketing e retail" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Sanità e farmaceutico"><span><i class="fas fa-heartbeat"></i> {% include t.html en="Healthcare and pharma" it="Sanità e farmaceutico" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Energia e ambiente"><span><i class="fas fa-leaf"></i> {% include t.html en="Energy and environment" it="Energia e ambiente" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Pubblica amministrazione"><span><i class="fas fa-university"></i> {% include t.html en="Public administration" it="Pubblica amministrazione" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Organizzazioni internazionali"><span><i class="fas fa-globe-europe"></i> {% include t.html en="International organizations" it="Organizzazioni internazionali" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Ricerca e università"><span><i class="fas fa-microscope"></i> {% include t.html en="Research and academia" it="Ricerca e università" %}</span></label>
+          <label class="tw-chip"><input type="checkbox" name="settore" value="Non so ancora"><span>{% include t.html en="Not sure yet" it="Non so ancora" %}</span></label>
+        </div>
+      </div>
+
+      <div class="tw-field">
+        <label for="futuro">{% include t.html en="What job would you like to do?" it="Che lavoro ti piacerebbe fare?" %} <span class="tw-opt">{% include t.html en="optional" it="facoltativo" %}</span></label>
+        <input type="text" class="tw-input" id="futuro" name="lavoro_o_corsi"
+               placeholder="e.g. data scientist at a bank, analyst at a consulting firm, PhD in statistics…" data-en-placeholder="e.g. data scientist at a bank, analyst at a consulting firm, PhD in statistics…" data-it-placeholder="es. data scientist in banca, analista in una società di consulenza, dottorato in statistica…">
+      </div>
+    </section>
+
+    <!-- 5 · Idea -->
+    <section class="tw-step" data-name="La tua idea" data-name-en="Your idea">
+      <h2 class="tw-q">{% include t.html en="Tell me about your idea" it="Raccontami la tua idea" %}</h2>
+      <p class="tw-hint">{% include t.html en="A rough idea is fine too: we'll shape it together." it="Va bene anche un'idea ancora vaga: la definiremo insieme." %}</p>
+
+      <div class="tw-field">
+        <label for="titolo">{% include t.html en="Topic or working title" it="Argomento o titolo provvisorio" %}</label>
+        <input type="text" class="tw-input" id="titolo" name="argomento" required
+               placeholder="e.g. Forecasting tourism demand with machine learning" data-en-placeholder="e.g. Forecasting tourism demand with machine learning" data-it-placeholder="es. Prevedere la domanda turistica con il machine learning">
+        <span class="tw-field-error">{% include t.html en="Enter a topic." it="Indica un argomento." %}</span>
+      </div>
+      <div class="tw-field">
+        <label for="descrizione">{% include t.html en="Description" it="Descrizione" %}</label>
+        <textarea class="tw-input" id="descrizione" name="descrizione" rows="5" required minlength="100"
+                  placeholder="What question do you want to ask? Why does it interest you? What analysis do you have in mind?" data-en-placeholder="What question do you want to ask? Why does it interest you? What analysis do you have in mind?" data-it-placeholder="Che domanda vuoi porti? Perché ti interessa? Che analisi immagini?"></textarea>
+        <span class="tw-counter" id="tw-counter"></span>
+        <span class="tw-field-error">{% include t.html en="Write at least 100 characters." it="Scrivi almeno 100 caratteri." %}</span>
+      </div>
+      <div class="tw-field">
+        <label for="dati">{% include t.html en="Data" it="Dati" %} <span class="tw-opt">{% include t.html en="optional" it="facoltativo" %}</span></label>
+        <input type="text" class="tw-input" id="dati" name="dati"
+               placeholder="Do you already have a source? ISTAT, Eurostat, company data, surveys…" data-en-placeholder="Do you already have a source? ISTAT, Eurostat, company data, surveys…" data-it-placeholder="Hai già una fonte? ISTAT, Eurostat, dati aziendali, survey…">
+      </div>
+      <div class="tw-field">
+        <label for="note">{% include t.html en="Notes" it="Note" %} <span class="tw-opt">{% include t.html en="optional" it="facoltativo" %}</span></label>
+        <input type="text" class="tw-input" id="note" name="note" placeholder="Internship, time constraints, thesis abroad…" data-en-placeholder="Internship, time constraints, thesis abroad…" data-it-placeholder="Stage, vincoli di tempo, tesi all'estero…">
+      </div>
+    </section>
+
+    <!-- 6 · Dati personali -->
+    <section class="tw-step" data-name="I tuoi dati" data-name-en="About you">
+      <h2 class="tw-q">{% include t.html en="Last step: who are you?" it="Ultimo passo: chi sei?" %}</h2>
+      <div class="tw-grid">
+        <div class="tw-field">
+          <label for="nome">{% include t.html en="First name" it="Nome" %}</label>
+          <input type="text" class="tw-input" id="nome" name="nome" required autocomplete="given-name">
+          <span class="tw-field-error">{% include t.html en="Enter your first name." it="Inserisci il nome." %}</span>
+        </div>
+        <div class="tw-field">
+          <label for="cognome">{% include t.html en="Last name" it="Cognome" %}</label>
+          <input type="text" class="tw-input" id="cognome" name="cognome" required autocomplete="family-name">
+          <span class="tw-field-error">{% include t.html en="Enter your last name." it="Inserisci il cognome." %}</span>
+        </div>
+        <div class="tw-field">
+          <label for="matricola">{% include t.html en="Student ID" it="Matricola" %}</label>
+          <input type="text" class="tw-input" id="matricola" name="matricola" required inputmode="numeric" pattern="[0-9]{5,10}">
+          <span class="tw-field-error">{% include t.html en="Digits only, as on your student card." it="Solo cifre, come sul badge." %}</span>
+        </div>
+        <div class="tw-field">
+          <label for="email">{% include t.html en="University email" it="Email istituzionale" %}</label>
+          <input type="email" class="tw-input" id="email" name="email" required placeholder="nome.cognome@icatt.it"
+                 pattern="[^@\s]+@(icatt\.it|unicatt\.it)$" autocomplete="email">
+          <span class="tw-field-error">{% include t.html en="Use your @icatt.it address." it="Usa l'indirizzo @icatt.it." %}</span>
+        </div>
+        <div class="tw-field tw-span-2">
+          <label for="corso_laurea">{% include t.html en="Degree programme at Università Cattolica del Sacro Cuore" it="Corso di laurea all'Università Cattolica del Sacro Cuore" %}</label>
+          <input type="text" class="tw-input" id="corso_laurea" name="corso_laurea" required placeholder="e.g. Economia e gestione d'azienda" data-en-placeholder="e.g. Economia e gestione d'azienda" data-it-placeholder="es. Economia e gestione d'azienda">
+          <span class="tw-field-error">{% include t.html en="Enter your degree programme." it="Indica il corso di laurea." %}</span>
+        </div>
+      </div>
+
+      <div class="tw-recap" id="tw-recap"></div>
+
+      <label class="tw-consent">
+        <input type="checkbox" name="consenso_privacy" value="Sì" required>
+        <span>{% include t.html en="I consent to the processing of the data entered for the sole purpose of evaluating the thesis application." it="Acconsento al trattamento dei dati inseriti al solo fine di valutare la richiesta di tesi." %}</span>
+      </label>
+      <p class="tw-error">{% include t.html en="Consent is required to send the application." it="Serve il consenso per inviare la richiesta." %}</p>
+
+      {% unless configured %}
+      <div class="tw-alert">{% include t.html en="The form is not active yet: sending is disabled." it="Il modulo non è ancora attivo: l'invio è disabilitato." %}</div>
+      {% endunless %}
+      <div class="tw-alert tw-alert-danger" id="tw-send-error" hidden>{% include t.html en="Sending failed. Please try again in a few minutes." it="Invio non riuscito. Riprova tra qualche minuto." %}</div>
+    </section>
+
+    <!-- Inviata -->
+    <section class="tw-step tw-done" data-name="Inviata" data-name-en="Sent">
+      <span class="tw-done-icon"><i class="fas fa-check"></i></span>
+      <h2 class="tw-q">{% include t.html en="Application sent" it="Richiesta inviata" %}</h2>
+      <p class="tw-lead">{% include t.html en="Thank you! I'll reply to the university email address you entered." it="Grazie! Ti risponderò all'indirizzo email istituzionale che hai indicato." %}</p>
+    </section>
+
+    <!-- Navigazione -->
+    <div class="tw-nav" id="tw-nav">
+      <button type="button" class="tw-btn tw-btn-ghost" data-prev><i class="fas fa-arrow-left"></i> {% include t.html en="Back" it="Indietro" %}</button>
+      <button type="button" class="tw-btn tw-btn-primary" data-next id="tw-next">{% include t.html en="Next" it="Avanti" %} <i class="fas fa-arrow-right"></i></button>
+      <button type="submit" class="tw-btn tw-btn-primary" id="tw-submit" {% unless configured %}disabled{% endunless %}>
+        {% include t.html en="Send application" it="Invia richiesta" %} <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+(function () {
+  var MIN_MONTHS = {{ tf.min_months | default: 6 }};
+  var MAX_SESSIONS = {{ tf.max_sessions | default: 6 }};
+
+  // Sessioni di laurea della Facoltà di Economia, campus di Roma.
+  // Il giorno è indicativo: serve solo a calcolare l'anticipo minimo.
+  var SESSIONS = [
+    { month: 2,  day: 15, name: 'marzo' },
+    { month: 6,  day: 20, name: 'luglio' },
+    { month: 8,  day: 15, name: 'settembre' },
+    { month: 11, day: 14, name: 'dicembre' }
+  ];
+  var T = function (en, it) { return window.i18n.t(en, it); };
+  function cap(x) { return x.charAt(0).toUpperCase() + x.slice(1); }
+
+  var form = document.getElementById('thesis-form');
+  var steps = [].slice.call(form.querySelectorAll('.tw-step'));
+  var LAST = steps.length - 2;   // ultimo passo con domande (l'ultimo è la conferma)
+  var current = 0;
+
+  // ---- Sessioni disponibili ----
+  var today = new Date();
+  var cutoff = new Date(today.getFullYear(), today.getMonth() + MIN_MONTHS, today.getDate());
+  var box = document.getElementById('tw-sessions');
+  var sessionList = [];
+  for (var y = today.getFullYear(); sessionList.length < MAX_SESSIONS && y < today.getFullYear() + 5; y++) {
+    for (var i = 0; i < SESSIONS.length && sessionList.length < MAX_SESSIONS; i++) {
+      var s = SESSIONS[i], d = new Date(y, s.month, s.day);
+      if (d < cutoff) continue;
+      sessionList.push({ date: d, value: 'Sessione di ' + s.name + ' ' + y,
+        months: (d.getFullYear() - today.getFullYear()) * 12 + d.getMonth() - today.getMonth() });
+    }
+  }
+  function renderSessions() {
+    var checked = (form.querySelector('input[name=sessione_laurea]:checked') || {}).value;
+    box.innerHTML = sessionList.map(function (x) {
+      var label = cap(x.date.toLocaleDateString(window.i18n.locale(), { month: 'long', year: 'numeric' }));
+      return '<label class="tw-choice"><input type="radio" name="sessione_laurea" required value="' + x.value + '"' + (x.value === checked ? ' checked' : '') + '>' +
+        '<span class="tw-card tw-card-compact"><span class="tw-card-icon"><i class="far fa-calendar-alt"></i></span>' +
+        '<span class="tw-card-title">' + label + '</span>' +
+        '<span class="tw-card-desc">' + T('in about ' + x.months + ' months', 'tra circa ' + x.months + ' mesi') + '</span></span></label>';
+    }).join('');
+  }
+  renderSessions();
+
+  // ---- Navigazione ----
+  var bar = document.getElementById('tw-bar');
+  var nav = document.getElementById('tw-nav');
+  var nextBtn = document.getElementById('tw-next');
+  var submitBtn = document.getElementById('tw-submit');
+  var prevBtn = form.querySelector('[data-prev]');
+  var wrap = document.getElementById('tw');
+  document.getElementById('tw-step-tot').textContent = LAST;
+
+  function go(i) {
+    steps[current].classList.remove('is-active');
+    current = i;
+    var step = steps[current];
+    step.classList.add('is-active');
+    wrap.classList.toggle('is-intro', current === 0);
+    wrap.classList.toggle('is-done', current === steps.length - 1);
+    document.getElementById('tw-step-num').textContent = current;
+    document.getElementById('tw-step-name').textContent = T(step.dataset.nameEn || step.dataset.name, step.dataset.name);
+    bar.style.width = (current / LAST * 100) + '%';
+    nextBtn.hidden = current === LAST;
+    submitBtn.hidden = current !== LAST;
+    if (current === LAST) buildRecap();
+    var top = wrap.getBoundingClientRect().top + window.pageYOffset - 24;
+    if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'smooth' });
+    var focusEl = step.querySelector('.tw-q, .tw-title');
+    if (focusEl) { focusEl.setAttribute('tabindex', '-1'); focusEl.focus({ preventScroll: true }); }
+  }
+
+  function valid(step) {
+    var fields = [].slice.call(step.querySelectorAll('input, textarea, select'));
+    var bad = fields.filter(function (f) { return !f.checkValidity(); });
+    [].forEach.call(step.querySelectorAll('[data-min-one]'), function (g) {
+      if (!g.querySelector('input:checked')) bad.push(g.querySelector('input'));
+    });
+    step.classList.toggle('show-errors', bad.length > 0);
+    if (bad.length && bad[0].type !== 'radio' && bad[0].type !== 'checkbox') bad[0].focus();
+    return bad.length === 0;
+  }
+
+  function next() { if (valid(steps[current]) && current < LAST) go(current + 1); }
+
+  form.addEventListener('click', function (e) {
+    if (e.target.closest('[data-next]')) next();
+    if (e.target.closest('[data-prev]') && current > 0) go(current - 1);
+  });
+
+  // Le scelte singole passano da sole al passo successivo
+  form.addEventListener('change', function (e) {
+    var step = steps[current];
+    step.classList.remove('show-errors');
+    if (e.target.name === 'insegnamento') {
+      document.getElementById('tipo_tesi').value = e.target.dataset.level;
+      // "Laurea magistrale" ha senso solo per chi fa la triennale (CIA)
+      [].forEach.call(form.querySelectorAll('[data-only]'), function (chip) {
+        var show = chip.dataset.only === e.target.value;
+        chip.hidden = !show;
+        if (!show) chip.querySelector('input').checked = false;
+      });
+    }
+    if (e.target.type === 'radio') setTimeout(next, 280);
+  });
+
+  // Invio da tastiera nei campi di testo = Avanti
+  form.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && current < LAST) { e.preventDefault(); next(); }
+  });
+
+  // ---- Cursori (testo che cambia con la posizione) ----
+  var LEVELS_EN = {
+    approccio: [
+      ['Methodological', 'The core of the thesis is the method: you develop, extend or compare statistical models, also through simulations.'],
+      ['Mostly methodological', 'You focus on the method and test it on real data to show how it works.'],
+      ['Balanced', 'Method and application weigh the same: you choose a model carefully and use it to answer a concrete question.'],
+      ['Mostly applied', 'You start from a real problem and use established methods, going deeper into the method as needed.'],
+      ['Applied', 'The core of the thesis is the question: you use existing methods on real data from a company, a region or a market.']
+    ],
+    programmazione: [
+      ['Never coded', 'I have never written code, except maybe a few Excel formulas.'],
+      ['Basic', 'I can run existing scripts and tweak them a little, for example the ones seen in class.'],
+      ['Intermediate', 'I write my own scripts to import, clean and analyse data.'],
+      ['Good', 'I write functions, use libraries and fix most errors on my own.'],
+      ['Advanced', 'I code with confidence: structured projects, packages, version control with Git.']
+    ],
+    ai: [
+      ['Never used', 'I do not use artificial intelligence tools.'],
+      ['Occasional', 'Now and then I ask ChatGPT or similar tools a question.'],
+      ['Regular', 'I use it often to study, summarise texts or have concepts explained.'],
+      ['For code', 'I use it to write and fix code, checking what it produces.'],
+      ['Advanced', 'I work with AI assistants and agents (e.g. Copilot, Claude Code) in my workflow.']
+    ]
+  };
+  var LEVELS = {
+    approccio: [
+      ['Metodologica', 'Il cuore della tesi è il metodo: sviluppi, estendi o confronti modelli statistici, anche con simulazioni.'],
+      ['Soprattutto metodologica', 'Ti concentri sul metodo e lo metti alla prova su dati reali per mostrarne il funzionamento.'],
+      ['Bilanciata', 'Metodo e applicazione hanno lo stesso peso: scegli un modello con attenzione e lo usi per rispondere a una domanda concreta.'],
+      ['Soprattutto applicata', 'Parti da un problema reale e usi metodi consolidati, approfondendo il metodo quanto serve.'],
+      ['Applicata', 'Il cuore della tesi è la domanda: usi metodi esistenti su dati reali di un\'azienda, di un territorio o di un mercato.']
+    ],
+    programmazione: [
+      ['Mai programmato', 'Non ho mai scritto codice, a parte forse qualche formula in Excel.'],
+      ['Base', 'So far girare script già scritti e modificarli un po\', per esempio quelli visti a lezione.'],
+      ['Intermedio', 'Scrivo da solo script per importare, pulire e analizzare dati.'],
+      ['Buono', 'Scrivo funzioni, uso librerie e risolvo da solo la maggior parte degli errori.'],
+      ['Avanzato', 'Programmo con sicurezza: progetti strutturati, pacchetti, versioning con Git.']
+    ],
+    ai: [
+      ['Mai usata', 'Non uso strumenti di intelligenza artificiale.'],
+      ['Occasionale', 'Ogni tanto faccio una domanda a ChatGPT o a strumenti simili.'],
+      ['Regolare', 'La uso spesso per studiare, riassumere testi o farmi spiegare concetti.'],
+      ['Per il codice', 'La uso per scrivere e correggere codice, controllando quello che produce.'],
+      ['Avanzato', 'Lavoro con assistenti e agenti AI (es. Copilot, Claude Code) nel mio flusso di lavoro.']
+    ]
+  };
+  var sliderUpdates = [];
+  [].forEach.call(form.querySelectorAll('.tw-range'), function (range) {
+    var box = range.closest('.tw-slider');
+    function update() {
+      var it = LEVELS[range.dataset.levels][range.value - 1];
+      var a = window.i18n.lang === 'it' ? it : LEVELS_EN[range.dataset.levels][range.value - 1];
+      box.querySelector('.tw-slider-text').innerHTML = '<strong>' + a[0] + '</strong>' + a[1];
+      box.querySelector('input[type=hidden]').value = range.value + '/5 – ' + it[0];
+      range.setAttribute('aria-valuetext', a[0]);
+      range.style.setProperty('--tw-fill', ((range.value - 1) / 4 * 100) + '%');
+    }
+    range.addEventListener('input', update);
+    sliderUpdates.push(update);
+    update();
+  });
+
+  var desc = document.getElementById('descrizione');
+  var counter = document.getElementById('tw-counter');
+  function updateCounter() {
+    var n = desc.value.trim().length;
+    counter.textContent = n < 100 ? n + ' / 100 ' + T('characters minimum', 'caratteri minimi') : n + ' ' + T('characters', 'caratteri') + ' ✓';
+    counter.classList.toggle('is-ok', n >= 100);
+  }
+  desc.addEventListener('input', updateCounter);
+  updateCounter();
+
+  // Riepilogo con le etichette visibili nella lingua scelta
+  function shownLabel(input) {
+    var t = input && input.closest('label').querySelector('.tw-card-title');
+    if (!t) return '';
+    var l = t.querySelector('[data-l="' + window.i18n.lang + '"]');
+    return (l || t).textContent.trim();
+  }
+  function buildRecap() {
+    var data = new FormData(form);
+    var tipo = data.get('tipo_tesi');
+    var rows = [
+      [T('Course', 'Corso'), data.get('insegnamento')],
+      [T('Thesis', 'Tesi'), tipo === 'Triennale' ? T("Bachelor's", 'Triennale') : tipo === 'Magistrale' ? T("Master's", 'Magistrale') : tipo],
+      [T('Session', 'Sessione'), shownLabel(form.querySelector('input[name=sessione_laurea]:checked'))],
+      [T('Area', 'Area'), [].map.call(form.querySelectorAll('input[name=area]:checked'), shownLabel).join(', ')],
+      [T('Approach', 'Approccio'), form.querySelector('[data-levels=approccio]').getAttribute('aria-valuetext')]
+    ];
+    document.getElementById('tw-recap').innerHTML = rows.map(function (r) {
+      return '<div><span>' + r[0] + '</span><strong>' + (r[1] || '—') + '</strong></div>';
+    }).join('');
+  }
+
+  // ---- Invio ----
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (current !== LAST || !valid(steps[current])) return;
+    var err = document.getElementById('tw-send-error');
+    err.hidden = true;
+    submitBtn.disabled = true;
+    var data = new FormData(form);
+    data.set('_subject', 'Richiesta tesi – ' + data.get('cognome') + ' ' + data.get('nome') +
+             ' (' + data.get('insegnamento') + ', ' + data.get('tipo_tesi') + ', ' + data.get('sessione_laurea') + ')');
+    ['area', 'strumenti', 'dopo_laurea', 'settore', 'migliorare'].forEach(function (k) {
+      var vals = data.getAll(k);
+      data.delete(k);
+      data.set(k, vals.join(', ') || '—');
+    });
+
+    fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        go(steps.length - 1);
+      })
+      .catch(function () { err.hidden = false; })
+      .finally(function () { submitBtn.disabled = false; });
+  });
+
+  window.i18n.onChange(function () {
+    renderSessions();
+    sliderUpdates.forEach(function (f) { f(); });
+    updateCounter();
+    var step = steps[current];
+    document.getElementById('tw-step-name').textContent = T(step.dataset.nameEn || step.dataset.name, step.dataset.name);
+    if (current === LAST) buildRecap();
+  });
+
+  go(0);
+})();
+</script>
+
+<style>
+.tw {
+  --tw-accent: #2f7ae5;
+  --tw-accent-soft: #edf4ff;
+  --tw-accent-line: #80bdff;
+  --tw-text: #1d2433;
+  --tw-muted: #687083;
+  --tw-border: #e2e7ef;
+  --tw-surface: #ffffff;
+  --tw-danger: #d93a3a;
+  max-width: 760px;
+  margin: 3rem auto 4rem;
+  padding: 0 1rem;
+  color: var(--tw-text);
+}
+
+/* Avanzamento */
+.tw-progress { margin-bottom: 2.5rem; }
+.tw.is-intro .tw-progress, .tw.is-done .tw-progress { display: none; }
+.tw-progress-meta { display: flex; justify-content: space-between; font-size: .85rem; color: var(--tw-muted); margin-bottom: .5rem; }
+.tw-progress-name { font-weight: 600; color: var(--tw-text); }
+.tw-progress-track { height: 6px; border-radius: 99px; background: var(--tw-border); overflow: hidden; }
+.tw-progress-bar { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--tw-accent-line), var(--tw-accent)); transition: width .4s ease; }
+
+/* Passi */
+.tw-step { display: none; }
+.tw-step.is-active { display: block; animation: tw-in .35s ease both; }
+@keyframes tw-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tw-step.is-active { animation: none; } }
+
+.tw-ucsc {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .4rem .9rem; margin-bottom: 1.25rem;
+  border-radius: 99px; background: var(--tw-accent-soft); color: var(--tw-accent);
+  font-size: .85rem; font-weight: 600;
+}
+.tw-title { font-size: 2.4rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: 1rem; }
+.tw-lead { font-size: 1.1rem; line-height: 1.65; color: var(--tw-muted); margin-bottom: 2rem; }
+.tw-lead strong { color: var(--tw-text); }
+.tw-q { font-size: 1.75rem; font-weight: 700; letter-spacing: -.01em; margin-bottom: .5rem; outline: none; }
+.tw-hint { color: var(--tw-muted); margin-bottom: 1.75rem; }
+.tw-q + .tw-choices, .tw-q + .tw-grid { margin-top: 1.75rem; }
+
+/* Come funziona */
+.tw-how { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+.tw-how-item { display: flex; gap: .9rem; padding: 1.1rem; border: 1px solid var(--tw-border); border-radius: 16px; background: var(--tw-surface); }
+.tw-how-item strong { display: block; margin-bottom: .2rem; }
+.tw-how-item p { margin: 0; font-size: .9rem; line-height: 1.5; color: var(--tw-muted); }
+.tw-how-icon {
+  flex: none; width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--tw-accent-soft); color: var(--tw-accent);
+}
+.tw-links { margin-top: 1.5rem; font-size: .85rem; color: var(--tw-muted); }
+.tw-links a { color: var(--tw-accent); }
+
+/* Scelte */
+.tw-choices { display: grid; gap: 1rem; }
+.tw-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tw-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tw-span-2 { grid-column: span 2; }
+.tw-choice { position: relative; margin: 0; cursor: pointer; display: block; min-width: 0; }
+.tw-choice input { position: absolute; opacity: 0; pointer-events: none; }
+.tw-card {
+  position: relative; display: flex; flex-direction: column; gap: .35rem; height: 100%;
+  padding: 1.4rem; border: 2px solid var(--tw-border); border-radius: 18px; background: var(--tw-surface);
+  transition: border-color .15s, box-shadow .15s, transform .15s, background .15s;
+}
+.tw-card-row { flex-direction: row; align-items: center; gap: 1rem; }
+.tw-card-row > span:last-child { display: flex; flex-direction: column; gap: .25rem; }
+.tw-card-compact { align-items: flex-start; padding: 1.1rem 1.2rem; }
+.tw-choice:hover .tw-card { border-color: var(--tw-accent-line); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(47, 122, 229, .10); }
+.tw-choice input:focus-visible + .tw-card { outline: 3px solid var(--tw-accent-line); outline-offset: 2px; }
+.tw-choice input:checked + .tw-card { border-color: var(--tw-accent); background: var(--tw-accent-soft); }
+.tw-choice input:checked + .tw-card::after {
+  content: "\f00c"; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: .75rem;
+  position: absolute; top: 14px; right: 14px; width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; background: var(--tw-accent); color: #fff;
+}
+.tw-card-icon {
+  flex: none; width: 46px; height: 46px; border-radius: 14px; margin-bottom: .6rem;
+  display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+  background: var(--tw-accent-soft); color: var(--tw-accent);
+}
+.tw-card-row .tw-card-icon { margin-bottom: 0; }
+.tw-card-compact .tw-card-icon { width: 36px; height: 36px; font-size: 1rem; border-radius: 10px; margin-bottom: .4rem; }
+.tw-choice input:checked + .tw-card .tw-card-icon { background: var(--tw-accent); color: #fff; }
+.tw-card-level {
+  position: absolute; top: 1.4rem; right: 1.4rem;
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .3rem .75rem; border-radius: 99px;
+  background: var(--tw-accent-soft); color: var(--tw-accent);
+  font-size: .8rem; font-weight: 700;
+}
+.tw-choice input:checked + .tw-card .tw-card-level { background: var(--tw-accent); color: #fff; right: 3.4rem; }
+.tw-card-badge {
+  position: absolute; top: 1.4rem; right: 1.4rem;
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .3rem .75rem; border-radius: 99px;
+  background: var(--tw-accent); color: #fff;
+  font-size: .78rem; font-weight: 700; white-space: nowrap;
+}
+.tw-badge-new { background: linear-gradient(120deg, #7b5cf0, #2f7ae5); }
+.tw-choice input:checked + .tw-card .tw-card-badge { right: 3.4rem; }
+.tw-card-featured { border-color: #c9dcf7; box-shadow: 0 6px 20px rgba(47, 122, 229, .08); }
+.tw-card-tag { font-size: .75rem; font-weight: 700; letter-spacing: .08em; color: var(--tw-accent); }
+.tw-card-title { font-size: 1.1rem; font-weight: 700; line-height: 1.3; color: var(--tw-text); }
+.tw-card-desc { font-size: .92rem; line-height: 1.5; color: var(--tw-muted); }
+
+/* Campi */
+.tw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+.tw-field { margin-bottom: 1.4rem; }
+.tw-field > label { display: block; font-weight: 600; margin-bottom: .45rem; }
+.tw-opt { font-weight: 400; font-size: .8rem; color: var(--tw-muted); margin-left: .35rem; }
+.tw-input {
+  width: 100%; padding: .85rem 1rem; font-size: 1rem; color: var(--tw-text);
+  border: 2px solid var(--tw-border); border-radius: 14px; background: var(--tw-surface);
+  transition: border-color .15s, box-shadow .15s;
+}
+.tw-input::placeholder { color: #a3aab8; }
+.tw-input:focus { outline: none; border-color: var(--tw-accent); box-shadow: 0 0 0 4px var(--tw-accent-soft); }
+textarea.tw-input { resize: vertical; min-height: 140px; line-height: 1.5; }
+.tw-counter { display: block; margin-top: .35rem; font-size: .8rem; color: var(--tw-muted); text-align: right; }
+.tw-counter.is-ok { color: #1f9d55; }
+
+.tw-chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+.tw-chip { margin: 0; cursor: pointer; }
+.tw-chip input { position: absolute; opacity: 0; pointer-events: none; }
+.tw-chip > span {
+  display: inline-block; white-space: nowrap; padding: .55rem 1.2rem; border-radius: 99px;
+  border: 2px solid var(--tw-border); background: var(--tw-surface); font-weight: 600;
+  transition: all .15s;
+}
+.tw-chip:hover > span { border-color: var(--tw-accent-line); }
+.tw-chip span i { margin-right: .35rem; color: var(--tw-accent); }
+.tw-chip input:checked + span i { color: #fff; }
+.tw-chip input:checked + span { border-color: var(--tw-accent); background: var(--tw-accent); color: #fff; }
+.tw-chip input:focus-visible + span { outline: 3px solid var(--tw-accent-line); outline-offset: 2px; }
+
+/* Cursore metodologica / applicata */
+.tw-slider {
+  padding: 1.5rem 1.5rem 1.25rem; margin-bottom: 2rem;
+  border: 2px solid var(--tw-border); border-radius: 18px; background: var(--tw-surface);
+}
+.tw-slider + .tw-slider { margin-top: -1rem; }
+.tw-slider-head { font-weight: 700; font-size: 1.05rem; margin-bottom: .9rem; }
+.tw-slider-head i { color: var(--tw-accent); margin-right: .4rem; }
+.tw-slider-head > span:last-child { font-weight: 400; font-size: .85rem; color: var(--tw-muted); margin-left: .35rem; }
+.tw-slider-head + .tw-slider-ends { font-weight: 600; font-size: .85rem; color: var(--tw-muted); margin-bottom: .6rem; }
+.tw-slider-ends { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 1rem; }
+.tw-slider-ends i { color: var(--tw-accent); }
+.tw-range {
+  --tw-fill: 50%;
+  -webkit-appearance: none; appearance: none; width: 100%; height: 10px; margin: 0; border-radius: 99px; cursor: pointer;
+  background: linear-gradient(90deg, var(--tw-accent) 0 var(--tw-fill), var(--tw-border) var(--tw-fill) 100%);
+}
+.tw-range:focus { outline: none; }
+.tw-range::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--tw-accent); box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.tw-range::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--tw-accent); box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.tw-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px var(--tw-accent-soft); }
+.tw-slider-ticks { display: flex; justify-content: space-between; padding: 0 11px; margin-top: .4rem; }
+.tw-slider-ticks span { width: 2px; height: 6px; background: var(--tw-border); }
+.tw-slider-text {
+  margin-top: 1.1rem; padding: .9rem 1.1rem; border-radius: 14px;
+  background: var(--tw-accent-soft); color: var(--tw-text); line-height: 1.55; min-height: 4.6rem;
+}
+.tw-slider-text strong { display: block; color: var(--tw-accent); margin-bottom: .15rem; }
+.tw-chips-tight { margin-bottom: .9rem; }
+.tw-chip[hidden] { display: none; }
+.tw-sub { display: block; margin-top: .4rem; font-size: .85rem; color: var(--tw-muted); }
+
+/* Riepilogo e consenso */
+.tw-recap {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1px; margin: .5rem 0 1.5rem;
+  border-radius: 16px; overflow: hidden; background: var(--tw-border); border: 1px solid var(--tw-border);
+}
+.tw-recap div { background: var(--tw-accent-soft); padding: .8rem 1rem; }
+.tw-recap span { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tw-muted); }
+.tw-recap strong { font-size: .95rem; }
+.tw-consent { display: flex; gap: .75rem; align-items: flex-start; cursor: pointer; font-size: .95rem; color: var(--tw-muted); margin-bottom: 1rem; }
+.tw-consent input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--tw-accent); flex: none; }
+
+/* Errori e avvisi */
+.tw-error, .tw-field-error { display: none; color: var(--tw-danger); font-size: .9rem; margin-top: .75rem; }
+.tw-field-error { margin-top: .35rem; font-size: .85rem; }
+.show-errors .tw-error { display: block; }
+.show-errors .tw-input:invalid { border-color: var(--tw-danger); }
+.show-errors .tw-input:invalid ~ .tw-field-error { display: block; }
+.show-errors .tw-input:invalid ~ .tw-counter { display: none; }
+.tw-alert { padding: .9rem 1.1rem; border-radius: 14px; background: #fff6e0; color: #8a6100; margin-bottom: 1.5rem; font-size: .95rem; }
+.tw-alert-danger { background: #fdecec; color: var(--tw-danger); }
+.tw-hp { position: absolute; left: -9999px; }
+
+/* Pulsanti */
+.tw-btn {
+  display: inline-flex; align-items: center; gap: .6rem;
+  padding: .85rem 1.6rem; font-size: 1rem; font-weight: 600;
+  border: 2px solid transparent; border-radius: 99px; cursor: pointer;
+  transition: background .15s, transform .15s, box-shadow .15s;
+}
+.tw-btn:focus-visible { outline: 3px solid var(--tw-accent-line); outline-offset: 2px; }
+.tw-btn-primary { background: var(--tw-accent); color: #fff; box-shadow: 0 6px 18px rgba(47, 122, 229, .25); }
+.tw-btn-primary:hover { background: #1f66cc; transform: translateY(-1px); }
+.tw-btn-primary:disabled { background: #a9c3ea; box-shadow: none; cursor: not-allowed; transform: none; }
+.tw-btn-ghost { background: transparent; color: var(--tw-muted); }
+.tw-btn-ghost:hover { color: var(--tw-text); background: #f1f4f8; }
+.tw-btn-lg { padding: 1rem 2.2rem; font-size: 1.1rem; }
+.tw-btn[hidden] { display: none; }
+
+.tw-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--tw-border); }
+.tw.is-intro .tw-nav, .tw.is-done .tw-nav { display: none; }
+
+/* Conferma */
+.tw-done { text-align: center; padding: 2rem 0; }
+.tw-done-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 72px; height: 72px; border-radius: 50%; margin-bottom: 1.5rem;
+  background: #e5f6ec; color: #1f9d55; font-size: 1.8rem;
+}
+
+@media (max-width: 640px) {
+  .tw { margin-top: 2rem; padding: 0; }
+  .tw-title { font-size: 1.9rem; }
+  .tw-q { font-size: 1.45rem; }
+  .tw-how, .tw-cols-2, .tw-grid { grid-template-columns: 1fr; }
+  .tw-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  .tw-card.tw-card-compact { padding: .9rem; }
+  .tw-card-compact .tw-card-title { font-size: .98rem; overflow-wrap: anywhere; }
+  .tw-card-compact .tw-card-desc { font-size: .85rem; }
+  .tw-span-2 { grid-column: auto; }
+  .tw-card-badge { position: static; align-self: flex-start; margin-bottom: .3rem; }
+  .tw-card { padding: 1.1rem; }
+}
+</style>

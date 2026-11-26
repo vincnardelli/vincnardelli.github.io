@@ -1,0 +1,44 @@
+{%- assign c = include.c -%}
+{%- assign years_it = c.years_it | default: c.years -%}
+{%- assign role_it = c.role_it | default: c.role -%}
+{%- assign inst_it = c.institution_it | default: c.institution -%}
+{%- assign city_en = c.city_en | default: c.city -%}
+{%- case c.category -%}
+  {%- when 'bachelor' -%}{%- assign cat_en = "Bachelor's degree" -%}{%- assign cat_it = "Laurea triennale" -%}
+  {%- when 'master' -%}{%- assign cat_en = "Master's degree" -%}{%- assign cat_it = "Laurea magistrale" -%}
+  {%- when 'mba' -%}{%- assign cat_en = "MBA" -%}{%- assign cat_it = "MBA" -%}
+  {%- when 'phd' -%}{%- assign cat_en = "PhD" -%}{%- assign cat_it = "Dottorato" -%}
+  {%- when 'summer' -%}{%- assign cat_en = "Summer School" -%}{%- assign cat_it = "Summer School" -%}
+  {%- when 'advanced' -%}{%- assign cat_en = "Advanced course" -%}{%- assign cat_it = "Corso avanzato" -%}
+  {%- else -%}{%- assign cat_en = nil -%}{%- assign cat_it = nil -%}
+{%- endcase -%}
+{%- assign note_it = c.note_it | default: c.note -%}
+{%- if c.url -%}
+<a class="tc-item{% if include.vertical %} tc-vertical{% endif %}" href="{{ c.url }}"{% unless c.url contains 'vincnardelli.com' %} target="_blank" rel="noopener"{% endunless %}>
+{%- else -%}
+<div class="tc-item{% if include.vertical %} tc-vertical{% endif %}">
+{%- endif -%}
+  <span class="tc-thumb"><img src="{{ '/img/' | append: c.image | relative_url }}" alt="" loading="lazy"></span>
+  <span class="tc-body">
+    <span class="tc-badges">
+      <span class="ui-badge ui-badge-solid">{% include t.html en=c.years it=years_it %}</span>
+      {%- if c.code -%}<span class="ui-badge">{{ c.code }}</span>{%- endif -%}
+      {%- if c.role -%}<span class="ui-badge ui-badge-muted">{% include t.html en=c.role it=role_it %}</span>{%- endif -%}
+    </span>
+    {%- if c.title_en -%}
+    <span class="tc-title">{% include t.html en=c.title_en it=c.title %}</span>
+    <span class="tc-title-en" data-l="en">{{ c.title }}</span>
+    {%- else -%}
+    <span class="tc-title">{{ c.title }}</span>
+    {%- endif -%}
+    <span class="tc-meta">
+      <span><i class="fas fa-university"></i>{% include t.html en=c.institution it=inst_it %}, {% include t.html en=city_en it=c.city %}</span>
+      {%- if cat_en -%}<span><i class="fas fa-graduation-cap"></i>{% include t.html en=cat_en it=cat_it %}</span>{%- endif -%}
+    </span>
+    {%- if c.note -%}<span class="tc-note">{% include t.html en=c.note it=note_it %}</span>{%- endif -%}
+    <span class="tc-foot">
+      <span class="ui-tags">{%- for tag in c.tags -%}{%- assign tag_it = site.data.tags_it[tag] | default: tag -%}<span class="ui-tag">{% if tag_it == tag %}{{ tag }}{% else %}{% include t.html en=tag it=tag_it %}{% endif %}</span>{%- endfor -%}</span>
+      {%- if c.url -%}<span class="tc-link">{% include t.html en="Materials" it="Materiali" %} <i class="fas fa-arrow-right"></i></span>{%- endif -%}
+    </span>
+  </span>
+{%- if c.url -%}</a>{%- else -%}</div>{%- endif -%}

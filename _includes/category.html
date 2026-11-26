@@ -1,0 +1,5 @@
+{%- case include.c -%}
+{%- when 'Journal Article' -%}{% include t.html en="Journal Article" it="Articolo su rivista" %}
+{%- when 'Conference Paper' -%}{% include t.html en="Conference Paper" it="Contributo a convegno" %}
+{%- else -%}{% include t.html en="Publication" it="Pubblicazione" %}
+{%- endcase -%}

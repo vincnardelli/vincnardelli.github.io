@@ -5,6 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ site.description }}">
 
+  <!-- Lingua: scelta salvata, altrimenti italiano se il browser è in italiano, altrimenti inglese -->
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('lang'); } catch (e) {}
+      var nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+      var lang = (saved === 'it' || saved === 'en') ? saved : (/^it\b/i.test(nav) ? 'it' : 'en');
+      var root = document.documentElement;
+      root.setAttribute('data-lang', lang);
+      root.setAttribute('lang', lang);
+      var subs = [];
+      window.i18n = {
+        lang: lang,
+        t: function (en, it) { return window.i18n.lang === 'it' ? it : en; },
+        locale: function () { return window.i18n.lang === 'it' ? 'it-IT' : 'en-GB'; },
+        onChange: function (fn) { subs.push(fn); },
+        set: function (l) {
+          if (l !== 'it' && l !== 'en') return;
+          window.i18n.lang = l;
+          root.setAttribute('data-lang', l);
+          root.setAttribute('lang', l);
+          try { localStorage.setItem('lang', l); } catch (e) {}
+          window.i18n.apply();
+          subs.forEach(function (fn) { fn(l); });
+        },
+        // Attributi tradotti: data-en-placeholder / data-it-placeholder, ecc.
+        apply: function () {
+          var l = window.i18n.lang;
+          ['placeholder', 'aria-label', 'title'].forEach(function (attr) {
+            var els = document.querySelectorAll('[data-' + l + '-' + attr + ']');
+            for (var i = 0; i < els.length; i++) els[i].setAttribute(attr, els[i].getAttribute('data-' + l + '-' + attr));
+          });
+          var t = document.querySelector('meta[name="i18n-title"]');
+          if (t) document.title = t.getAttribute('data-' + l);
+        }
+      };
+      document.addEventListener('DOMContentLoaded', window.i18n.apply);
+    })();
+  </script>
+  <style>
+    html[data-lang="it"] [data-l="en"], html:not([data-lang="it"]) [data-l="it"] { display: none !important; }
+  </style>
+
   <title>{{ site.title }}</title>
   <link rel="shortcut icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/apple-touch-icon.png' | relative_url }}">

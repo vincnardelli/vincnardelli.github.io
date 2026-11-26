@@ -1,0 +1,140 @@
+# Corsi tenuti, dal più recente. Testi in inglese con la versione italiana nei campi *_it.
+# Campi: title, title_en (traduzione del titolo italiano, facoltativa), code, active (corso in corso),
+#        category (bachelor | master | mba | phd | summer | advanced),
+#        years / years_it, role / role_it, institution, city / city_en,
+#        note / note_it, tags, url (materiali, facoltativo), image (in /img)
+
+- title: Coding e Fondamenti di Intelligenza Artificiale
+  category: bachelor
+  title_en: Coding and Foundations of Artificial Intelligence
+  code: CIA
+  active: true
+  years: "2026/27"
+  institution: Università Cattolica del Sacro Cuore
+  city: Roma
+  city_en: Rome
+  note: "Formerly Coding e Big Data (2022–2025)"
+  note_it: "In precedenza Coding e Big Data (2022–2025)"
+  tags: [R, Python, AI]
+  url: https://vincnardelli.com/cia
+  image: course_coding.svg
+
+- title: Metodi Statistici per le Decisioni
+  category: master
+  title_en: Statistical Methods for Decision Making
+  code: MSD
+  active: true
+  years: "Since 2024"
+  years_it: "Dal 2024"
+  institution: Università Cattolica del Sacro Cuore
+  city: Roma
+  city_en: Rome
+  tags: [Decision making, Machine learning, Python]
+  url: https://vincnardelli.com/msd
+  image: course_decision.svg
+
+- title: Research & Quantitative Business Methods
+  category: mba
+  code: MBA
+  active: true
+  years: "2026/27"
+  institution: European School of Economics
+  city: Firenze
+  city_en: Florence
+  tags: [Probability, Statistics, Regression, Python]
+  url: https://niccolosalvini.github.io/ese-qnb/
+  image: course_ese.svg
+
+- title: MAPS Summer School – Spatial Analysis
+  category: summer
+  code: MAPS
+  years: "2026"
+  institution: MAPS project · University of Dodoma
+  city: Dar es Salaam, Tanzania
+  tags: [LISA, Spatial regression, R, Python]
+  url: https://github.com/vincnardelli/maps
+  image: course_maps.svg
+
+- title: Corso Intensivo di Introduzione all'Econometria Spaziale
+  category: advanced
+  title_en: Intensive Introductory Course in Spatial Econometrics
+  code: SPEC
+  years: "2026"
+  institution: Università Cattolica del Sacro Cuore
+  city: Roma
+  city_en: Rome
+  tags: [Spatial econometrics, R, Python]
+  url: https://vincnardelli.com/spec
+  image: course_spec.svg
+
+- title: Valutazione delle applicazioni dell'intelligenza artificiale in sanità
+  category: advanced
+  title_en: Evaluation of Artificial Intelligence Applications in Healthcare
+  years: "2025/26"
+  role: Lecturer
+  role_it: Docente
+  institution: ALTEMS – Università Cattolica del Sacro Cuore
+  city: Roma
+  city_en: Rome
+  tags: [AI, Healthcare]
+  image: course_health_ai.svg
+
+- title: "Il cambio di paradigma: dai sistemi informativi ai big data"
+  category: advanced
+  title_en: "Paradigm Shift: from Information Systems to Big Data"
+  years: "2025"
+  role: Lecturer
+  role_it: Docente
+  institution: Regione Lazio – SSN management training
+  institution_it: Regione Lazio – Formazione manageriale SSN
+  city: Roma
+  city_en: Rome
+  tags: [Big data, Healthcare]
+  image: course_bigdata.svg
+
+- title: Statistica
+  title_en: Statistics
+  category: bachelor
+  years: "2024"
+  role: Teaching assistant
+  role_it: Esercitatore
+  institution: Università Cattolica del Sacro Cuore
+  city: Roma
+  city_en: Rome
+  tags: [Statistics]
+  image: course_stats.svg
+
+- title: Health Econometrics and Program Evaluation
+  category: master
+  years: "2022–2023"
+  role: Teaching assistant
+  role_it: Esercitatore
+  institution: Università Cattolica del Sacro Cuore
+  city: Roma
+  city_en: Rome
+  tags: [Econometrics, R]
+  image: course_health_econ.svg
+
+- title: Spatial Analysis in R and Python
+  category: advanced
+  code: SEAI
+  years: "2021–2022"
+  role: Teaching assistant
+  role_it: Esercitatore
+  institution: Spatial Econometrics Advanced Institute (SEA)
+  city: Roma
+  city_en: Rome
+  tags: [Spatial statistics, R, Python]
+  url: https://vincnardelli.com/seai
+  image: course_spatial.svg
+
+- title: Computational Statistics
+  category: master
+  years: "2021"
+  role: Teaching assistant
+  role_it: Esercitatore
+  institution: Università Cattolica del Sacro Cuore
+  city: Milano
+  city_en: Milan
+  tags: [R]
+  image: course_compstat.svg

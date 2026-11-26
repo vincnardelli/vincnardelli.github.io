@@ -1,13 +1,8 @@
-<footer class="mt-auto py-3 text-center">
-
- 
-
-  {% include social.html %}
-
-  {%- assign theme_name = "portfolYOU" -%}
-  {%- assign theme_repo = "https://github.com/YoussefRaafatNasry/portfolYOU" -%}
-
-  <small class="text-muted mb-2">
-    Custom Theme adapted from <a href="https://github.com/YoussefRaafatNasry/portfolYOU">portfolYOU</a></strong>
-  </small> 
+<footer class="ui-footer">
+  <div class="ui-wrap ui-footer-inner">
+    <p class="ui-footer-text">
+      © {{ 'now' | date: '%Y' }} {{ site.author.name }} · Università Cattolica del Sacro Cuore, {% include t.html en='Rome' it='Roma' %}
+    </p>
+    {% include social.html %}
+  </div>
 </footer>

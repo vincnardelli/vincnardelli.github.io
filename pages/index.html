@@ -1,0 +1,96 @@
+---
+layout: default
+title: Vincenzo Nardelli
+permalink: /
+# Pubblicazioni in evidenza in home: slug da _data/papers.json e area di ricerca
+featured:
+  - slug: 2026_01_the_impact_of_spatial_outliers_on_spatial
+    area_en: Spatial Econometrics and Statistics
+    area_it: Econometria e statistica spaziale
+  - slug: 2025_01_defining_ad_hoc_sampling_designs_for_small
+    area_en: Small Area Estimation
+    area_it: Stima per piccole aree
+  - slug: 2022_01_spatial_sampling_design_to_improve_the_efficiency
+    area_en: Spatial Sampling
+    area_it: Campionamento spaziale
+---
+
+<!-- Hero -->
+<section class="ui-hero ui-hero-lg">
+  <h1 class="ui-title ui-title-xl ui-in ui-in-2">{% include t.html en="Hi, I'm" it="Ciao, sono" %} <span class="ui-hl">Vincenzo Nardelli</span></h1>
+  <p class="ui-lead ui-in ui-in-3" data-l="en">
+    <strong>Assistant Professor of Statistics</strong> at Università Cattolica del Sacro Cuore in Rome.
+    My research focuses on spatial econometrics and statistics, small area estimation
+    and spatial sampling.
+  </p>
+  <p class="ui-lead ui-in ui-in-3" data-l="it">
+    <strong>Ricercatore in Statistica</strong> all'Università Cattolica del Sacro Cuore di Roma.
+    La mia ricerca riguarda l'econometria e la statistica spaziale, la stima per piccole aree
+    e il campionamento spaziale.
+  </p>
+  <div class="ui-actions ui-in ui-in-3">
+    <a class="ui-btn ui-btn-primary" href="{{ '/publications/' | relative_url }}">{% include t.html en="Publications" it="Pubblicazioni" %} <i class="fas fa-arrow-right"></i></a>
+    <a class="ui-btn ui-btn-outline" href="{{ '/courses/' | relative_url }}">{% include t.html en="Teaching" it="Didattica" %}</a>
+    {% include social.html %}
+  </div>
+</section>
+
+<!-- Ricerca -->
+<section class="ui-section">
+  <div class="ui-section-head">
+    <h2 class="ui-section-title">{% include t.html en="Research areas" it="Aree di ricerca" %}</h2>
+  </div>
+  <div class="ui-grid ui-grid-3">
+    <div class="ui-card">
+      <span class="ui-card-icon"><i class="fas fa-map-marked-alt"></i></span>
+      <h3 class="ui-card-title">{% include t.html en="Spatial Econometrics and Statistics" it="Econometria e statistica spaziale" %}</h3>
+      <p class="ui-card-desc">{% include t.html en="Models for spatially dependent data: spatial regression, spatial correlation and the role of outliers." it="Modelli per dati con dipendenza spaziale: regressione spaziale, correlazione spaziale e ruolo degli outlier." %}</p>
+    </div>
+    <div class="ui-card">
+      <span class="ui-card-icon"><i class="fas fa-th"></i></span>
+      <h3 class="ui-card-title">{% include t.html en="Small Area Estimation" it="Stima per piccole aree" %}</h3>
+      <p class="ui-card-desc">{% include t.html en="Reliable estimates for small domains, such as municipalities and local areas, where direct survey data are scarce." it="Stime affidabili per piccoli domini, come comuni e aree locali, dove i dati campionari diretti sono scarsi." %}</p>
+    </div>
+    <div class="ui-card">
+      <span class="ui-card-icon"><i class="fas fa-map-pin"></i></span>
+      <h3 class="ui-card-title">{% include t.html en="Spatial Sampling" it="Campionamento spaziale" %}</h3>
+      <p class="ui-card-desc">{% include t.html en="Sampling designs for geo-referenced populations and spatially distributed data." it="Disegni di campionamento per popolazioni georeferenziate e dati distribuiti nello spazio." %}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Ultime pubblicazioni -->
+<section class="ui-section">
+  <div class="ui-section-head">
+    <h2 class="ui-section-title">{% include t.html en="Selected publications" it="Pubblicazioni selezionate" %}</h2>
+    <a class="ui-section-link" href="{{ '/publications/' | relative_url }}">{% include t.html en="All publications" it="Tutte le pubblicazioni" %} <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="ui-grid ui-grid-3">
+    {%- for f in page.featured -%}
+    {%- assign p = site.data.papers | where: "slug", f.slug | first -%}
+    {%- if p == nil -%}{%- continue -%}{%- endif -%}
+    {%- if p.link -%}{%- assign href = p.link -%}{%- else -%}{%- assign href = '/papers/' | append: p.slug | relative_url -%}{%- endif -%}
+    <a class="ui-card" href="{{ href }}"{% if p.link %} target="_blank" rel="noopener"{% endif %}>
+      <span class="ui-badge">{% include t.html en=f.area_en it=f.area_it %}</span>
+      <i class="fas {% if p.link %}fa-external-link-alt{% else %}fa-arrow-right{% endif %} ui-card-arrow"></i>
+      <h3 class="ui-card-title">{{ p.name | default: p.title }}</h3>
+      <div class="ui-card-meta">
+        {%- if p.journal -%}<span><i class="fas fa-book"></i>{{ p.journal }}</span>{%- endif -%}
+        {%- if p.year -%}<span><i class="far fa-calendar"></i>{{ p.year }}</span>{%- endif -%}
+      </div>
+    </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+<!-- Tesi -->
+<section class="ui-section">
+  <a class="ui-banner" href="{{ '/tesi/' | relative_url }}">
+    <span class="ui-banner-icon"><i class="fas fa-graduation-cap"></i></span>
+    <span>
+      <span class="ui-banner-title">{% include t.html en="Write your thesis with me" it="Fai la tesi con me" %}</span>
+      <span class="ui-banner-text">{% include t.html en="For students of my courses at Università Cattolica del Sacro Cuore: CIA (bachelor's) and MSD (master's)." it="Per gli studenti dei miei corsi all'Università Cattolica del Sacro Cuore: CIA (triennale) e MSD (magistrale)." %}</span>
+    </span>
+    <span class="ui-banner-cta">{% include t.html en="Apply" it="Richiedi" %} <i class="fas fa-arrow-right"></i></span>
+  </a>
+</section>

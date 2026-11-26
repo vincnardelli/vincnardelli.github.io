@@ -1,7 +1,7 @@
 ### Site Settings ###
 title               : Vincenzo Nardelli
 description         : >-
-                      Personal Website of Vincenzo Nardelli, Research Fellow in Statistics at Università Cattolica del Sacro Cuore in Rome.
+                      Personal website of Vincenzo Nardelli, Assistant Professor of Statistics at Università Cattolica del Sacro Cuore in Rome.
 baseurl             : "/"
 
 ### Plugins ###
@@ -16,6 +16,17 @@ nav_exclude:                                            # The following paths ar
   - pages/404.html
   - pages/blog.html
   - pages/projects.html
+  - pages/tesi.html
+
+### Mappa conferenze (token pubblico Mapbox) ###
+mapbox_token        : pk.eyJ1IjoidmluY2Vuem8tbmFyZGVsbGkiLCJhIjoiY213d3o3eTloMDl6aDMwcXlvam0yYzVxOSJ9.C5ajB95pjORLXoMltskh-w
+
+### Modulo richiesta tesi (pagina /tesi/) ###
+thesis_form:
+  endpoint          : https://formspree.io/f/xdegbbar     # Form Formspree delle richieste tesi
+  min_months        : 6                                   # Anticipo minimo (mesi) rispetto alla sessione
+  max_sessions      : 6                                   # Numero di sessioni proposte nel menu
+
 
 ### Author Info ###
 author:

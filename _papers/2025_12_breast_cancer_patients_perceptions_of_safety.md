@@ -1,5 +1,5 @@
 ---
-name: Breast cancer patients' perceptions of safety: insights from the Italian NHS
+name: "Breast cancer patients' perceptions of safety: insights from the Italian NHS"
 category: Journal Article
 year: 2025
 date: 2025-12-25

@@ -1,273 +1,157 @@
-<!-- Remote Projects JS -->
-<script src="{{ '/assets/js/remote-projects.js' | relative_url }}"></script>
+<section class="ui-hero">
+  <span class="ui-eyebrow"><i class="fas fa-book-open"></i> {% include t.html en="Research output" it="Ricerca" %}</span>
+  <h1 class="ui-title">{% include t.html en="Publications" it="Pubblicazioni" %}</h1>
+</section>
 
-<div class="m-3 mt-5">
-  <h2>Papers</h2>  
-
-  <!-- Filters -->
-  <div class="row mb-4">
-    <div class="col-md-6 mb-3 mb-md-0">
-      <label for="category-filter" class="form-label"><strong>Filter by type:</strong></label>
-      <select id="category-filter" class="form-control">
-        <option value="">All types</option>
-      </select>
-    </div>
-    <div class="col-md-6">
-      <label for="year-filter" class="form-label"><strong>Filter by year:</strong></label>
-      <select id="year-filter" class="form-control">
-        <option value="">All years</option>
-      </select>
-    </div>
+<!-- Filtri -->
+<div class="pub-filters">
+  <div class="ui-search pub-search">
+    <i class="fas fa-search"></i>
+    <input type="search" id="pub-q" class="ui-input" placeholder="Search by title, author or journal…" aria-label="Search publications"
+           data-en-placeholder="Search by title, author or journal…" data-it-placeholder="Cerca per titolo, autore o rivista…"
+           data-en-aria-label="Search publications" data-it-aria-label="Cerca pubblicazioni">
   </div>
+  <select id="pub-year" class="ui-select pub-year" aria-label="Filter by year" data-en-aria-label="Filter by year" data-it-aria-label="Filtra per anno">
+    <option value="" id="pub-year-all">All years</option>
+  </select>
+</div>
+<div class="ui-chips pub-types" id="pub-types" role="group" aria-label="Filter by type"></div>
 
-  <!-- Results count -->
-  <div id="results-count" class="mb-3 text-muted">
-    <span id="count-number">-</span> publications found
-  </div>
+<p class="pub-count" id="pub-count" aria-live="polite"></p>
 
-  <!-- Papers Container -->
-  <div id="papers-container">
-    <!-- Papers will be loaded here -->
-  </div>
+<div class="ui-grid ui-grid-2" id="pub-list"></div>
 
-  <!-- No results message -->
-  <div id="no-results" class="alert alert-info" style="display: none;">
-    No publications found with the selected filters.
-  </div>
+<div class="pub-empty" id="pub-empty" hidden>
+  <i class="far fa-folder-open"></i>
+  <p>{% include t.html en="No publications match these filters." it="Nessuna pubblicazione corrisponde ai filtri." %}</p>
+  <button type="button" class="ui-btn ui-btn-outline ui-btn-sm" id="pub-reset">{% include t.html en="Clear filters" it="Azzera i filtri" %}</button>
 </div>
 
 <script>
-(function() {
-  const primaryColor = '#80bdff';
-  let allPapers = [];
-  
-  // Fetch papers data
-  fetch('{{ "/assets/papers.json" | relative_url }}')
-    .then(response => response.json())
-    .then(papers => {
-      allPapers = papers;
-      
-      // Populate filter dropdowns
-      const categories = [...new Set(papers.map(p => p.category).filter(c => c))].sort();
-      const years = [...new Set(papers.map(p => p.year).filter(y => y))].sort((a, b) => b - a);
-      
-      const categoryFilter = document.getElementById('category-filter');
-      const yearFilter = document.getElementById('year-filter');
-      
-      categories.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat;
-        option.textContent = cat;
-        categoryFilter.appendChild(option);
-      });
-      
-      years.forEach(year => {
-        const option = document.createElement('option');
-        option.value = year;
-        option.textContent = year;
-        yearFilter.appendChild(option);
-      });
-      
-      // Initial render
-      renderPapers(papers);
-      
-      // Add filter event listeners
-      categoryFilter.addEventListener('change', filterPapers);
-      yearFilter.addEventListener('change', filterPapers);
-    })
-    .catch(error => {
-      console.error('Error loading papers:', error);
-      document.getElementById('papers-container').innerHTML = 
-        '<p class="text-danger">Error loading papers. Please try again later.</p>';
-    });
-  
-  function renderPapers(papers) {
-    const container = document.getElementById('papers-container');
-    container.innerHTML = '';
-    
-    // Sort by date (newest first)
-    papers.sort((a, b) => {
-      const dateA = a.date ? new Date(a.date) : new Date(a.year || 0, 0, 1);
-      const dateB = b.date ? new Date(b.date) : new Date(b.year || 0, 0, 1);
-      return dateB - dateA;
-    });
-    
-    let itemCount = 0;
-    
-    papers.forEach(paper => {
-      // Start of row for every three items
-      if (itemCount % 3 === 0) {
-        const row = document.createElement('div');
-        row.className = 'row paper-row';
-        row.id = `paper-row-${Math.floor(itemCount / 3)}`;
-        container.appendChild(row);
-      }
-      
-      // Get current row
-      const currentRow = document.getElementById(`paper-row-${Math.floor(itemCount / 3)}`);
-      
-      // Create paper card column
-      const col = document.createElement('div');
-      col.className = 'col-md-4 wow animated fadeIn paper-item mb-4';
-      col.setAttribute('data-wow-delay', '.15s');
-      col.setAttribute('data-category', paper.category || '');
-      col.setAttribute('data-year', paper.year || '');
-      
-      // Determine URL (use link if available, otherwise generate from slug)
-      const paperUrl = paper.link || `/papers/${paper.slug || paper.filename || ''}`;
-      
-      // Create card with colored styling (similar to conferences)
-      col.innerHTML = `
-        <div class="wow animated fadeIn" data-wow-delay=".15s">
-          <a href="${paperUrl}" class="paper-card project card text-dark" target="${paper.link ? '_blank' : '_self'}">
-            <div class="paper-card-header" style="background: linear-gradient(120deg, ${primaryColor}, 70%, ${primaryColor} 100%);">
-              <span class="paper-category-badge">${paper.category || 'Publication'}</span>
-            </div>
-            <div class="card-body">
-              <p class="paper-meta">
-                ${paper.journal ? `<i class="fas fa-book" style="color: ${primaryColor};"></i> ${paper.journal}` : ''} 
-                ${paper.year ? ` <i class="fas fa-calendar-alt" style="color: ${primaryColor};"></i> ${paper.year}` : ''}
-              </p>
-              <h5 class="card-title paper-title">
-                ${paper.name || paper.title}
-              </h5>
-              ${paper.abstract ? `<p class="card-text paper-abstract">${paper.abstract.substring(0, 150)}${paper.abstract.length > 150 ? '...' : ''}</p>` : ''}
-            </div>
-          </a>
-        </div>
-      `;
-      
-      currentRow.appendChild(col);
-      itemCount++;
-    });
-    
-    // Update count
-    document.getElementById('count-number').textContent = papers.length;
+(function () {
+  var state = { q: '', type: '', year: '' };
+  var all = [];
+  var list = document.getElementById('pub-list');
+  var T = function (en, it) { return window.i18n.t(en, it); };
+  var CAT_IT = { 'Journal Article': 'Articolo su rivista', 'Conference Paper': 'Contributo a convegno', 'Publication': 'Pubblicazione' };
+  function cat(c) { c = c || 'Publication'; return T(c, CAT_IT[c] || c); }
+
+  function esc(s) {
+    return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
   }
-  
-  function filterPapers() {
-    const categoryFilter = document.getElementById('category-filter');
-    const yearFilter = document.getElementById('year-filter');
-    const papersContainer = document.getElementById('papers-container');
-    const noResults = document.getElementById('no-results');
-    const countNumber = document.getElementById('count-number');
-    
-    const selectedCategory = categoryFilter.value;
-    const selectedYear = yearFilter.value;
-    const paperItems = papersContainer.querySelectorAll('.paper-item');
-    let visibleCount = 0;
-    
-    paperItems.forEach(function(item) {
-      const category = item.getAttribute('data-category') || '';
-      const year = item.getAttribute('data-year') || '';
-      
-      const categoryMatch = !selectedCategory || category === selectedCategory;
-      const yearMatch = !selectedYear || year === selectedYear;
-      
-      if (categoryMatch && yearMatch) {
-        item.style.display = '';
-        visibleCount++;
-      } else {
-        item.style.display = 'none';
-      }
-    });
-    
-    // Hide empty rows
-    const rows = papersContainer.querySelectorAll('.paper-row');
-    rows.forEach(function(row) {
-      const visibleItems = row.querySelectorAll('.paper-item[style=""], .paper-item:not([style*="display: none"])');
-      if (visibleItems.length === 0) {
-        row.style.display = 'none';
-      } else {
-        row.style.display = '';
-      }
-    });
-    
-    // Update count and show/hide no results message
-    countNumber.textContent = visibleCount;
-    if (visibleCount === 0) {
-      noResults.style.display = 'block';
-      papersContainer.style.display = 'none';
-    } else {
-      noResults.style.display = 'none';
-      papersContainer.style.display = 'block';
+  function dateOf(p) { return p.date ? new Date(p.date) : new Date(p.year || 0, 0, 1); }
+  function titleCase(s) {
+    // Le riviste arrivano spesso in maiuscolo dal catalogo IRIS
+    if (!s || s !== s.toUpperCase()) return s;
+    return s.toLowerCase().replace(/(^|\s|-|\()([a-zà-ù])/g, function (m, a, b) { return a + b.toUpperCase(); })
+      .replace(/\b(Of|And|In|On|For|The|A|An|To|Di|E|Del|Della|Per)\b/g, function (w, x, i) { return i === 0 ? w : w.toLowerCase(); });
+  }
+
+  // Al massimo 6 autori per scheda; il mio nome resta sempre visibile
+  var MAX_AUTHORS = 6, ME = 'Vincenzo Nardelli';
+  function shortAuthors(s) {
+    var names = String(s || '').split(',').map(function (n) { return n.trim(); }).filter(Boolean);
+    var shown = names, extra = 0;
+    if (names.length > MAX_AUTHORS) {
+      var me = names.indexOf(ME);
+      shown = (me === -1 || me < MAX_AUTHORS) ? names.slice(0, MAX_AUTHORS) : names.slice(0, MAX_AUTHORS - 1).concat(['…', ME]);
+      extra = names.length - MAX_AUTHORS;
     }
+    return shown.map(function (n) { return n === ME ? '<strong>' + esc(n) + '</strong>' : esc(n); }).join(', ') +
+      (extra ? ' <span class="pub-more">+' + extra + ' ' + T('more', 'altri') + '</span>' : '');
   }
+
+  fetch('{{ "/assets/papers.json" | relative_url }}')
+    .then(function (r) { return r.json(); })
+    .then(function (papers) {
+      all = papers.sort(function (a, b) { return dateOf(b) - dateOf(a); });
+
+      buildChips();
+
+      var years = Array.from(new Set(all.map(function (p) { return String(p.year || ''); }).filter(Boolean))).sort().reverse();
+      var sel = document.getElementById('pub-year');
+      years.forEach(function (y) { sel.insertAdjacentHTML('beforeend', '<option value="' + y + '">' + y + '</option>'); });
+
+      render();
+    })
+    .catch(function () {
+      list.innerHTML = '<p class="text-danger">' + T('Could not load publications. Please try again later.', 'Impossibile caricare le pubblicazioni. Riprova più tardi.') + '</p>';
+    });
+
+  function buildChips() {
+    var types = {};
+    all.forEach(function (p) { var t = p.category || 'Publication'; types[t] = (types[t] || 0) + 1; });
+    var html = '<button type="button" class="ui-chip' + (state.type ? '' : ' is-active') + '" data-type="">' + T('All', 'Tutte') + ' <span class="ui-chip-count">' + all.length + '</span></button>';
+    Object.keys(types).sort().forEach(function (t) {
+      html += '<button type="button" class="ui-chip' + (state.type === t ? ' is-active' : '') + '" data-type="' + esc(t) + '">' + esc(cat(t)) + ' <span class="ui-chip-count">' + types[t] + '</span></button>';
+    });
+    document.getElementById('pub-types').innerHTML = html;
+    document.getElementById('pub-year-all').textContent = T('All years', 'Tutti gli anni');
+  }
+
+  window.i18n.onChange(function () { if (all.length) { buildChips(); render(); } });
+
+  function render() {
+    var q = state.q.toLowerCase();
+    var items = all.filter(function (p) {
+      if (state.type && (p.category || 'Publication') !== state.type) return false;
+      if (state.year && String(p.year) !== state.year) return false;
+      if (q && [p.name, p.title, p.authors, p.journal].join(' ').toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+
+    list.innerHTML = items.map(function (p) {
+      var url = p.link || '{{ "/papers/" | relative_url }}' + (p.slug || p.filename || '');
+      var ext = !!p.link;
+      var authors = shortAuthors(p.authors);
+      return '<a class="ui-card pub-card" href="' + esc(url) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
+        '<span class="ui-badge">' + esc(cat(p.category)) + '</span>' +
+        '<i class="fas ' + (ext ? 'fa-external-link-alt' : 'fa-arrow-right') + ' ui-card-arrow"></i>' +
+        '<h3 class="ui-card-title">' + esc(p.name || p.title) + '</h3>' +
+        (p.authors ? '<p class="ui-card-desc pub-authors">' + authors + '</p>' : '') +
+        '<div class="ui-card-meta">' +
+          (p.journal ? '<span><i class="fas fa-book"></i>' + esc(titleCase(p.journal)) + '</span>' : '') +
+          (p.year ? '<span><i class="far fa-calendar"></i>' + esc(p.year) + '</span>' : '') +
+        '</div></a>';
+    }).join('');
+
+    document.getElementById('pub-count').textContent = items.length + ' ' + (items.length === 1 ? T('publication', 'pubblicazione') : T('publications', 'pubblicazioni'));
+    document.getElementById('pub-empty').hidden = items.length > 0;
+  }
+
+  document.getElementById('pub-types').addEventListener('click', function (e) {
+    var b = e.target.closest('.ui-chip');
+    if (!b) return;
+    [].forEach.call(this.children, function (c) { c.classList.toggle('is-active', c === b); });
+    state.type = b.dataset.type;
+    render();
+  });
+  document.getElementById('pub-year').addEventListener('change', function () { state.year = this.value; render(); });
+  document.getElementById('pub-q').addEventListener('input', function () { state.q = this.value.trim(); render(); });
+  document.getElementById('pub-reset').addEventListener('click', function () {
+    state = { q: '', type: '', year: '' };
+    document.getElementById('pub-q').value = '';
+    document.getElementById('pub-year').value = '';
+    [].forEach.call(document.getElementById('pub-types').children, function (c, i) { c.classList.toggle('is-active', i === 0); });
+    render();
+  });
 })();
 </script>
 
 <style>
-.paper-card {
-  transition: transform 0.2s, box-shadow 0.2s;
-  height: 100%;
-  border: none;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-}
-
-.paper-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(128, 189, 255, 0.3);
-  text-decoration: none;
-  color: inherit;
-}
-
-.paper-card-header {
-  padding: 12px 20px;
-  color: white;
-}
-
-.paper-category-badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.25);
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.85em;
-  font-weight: 600;
-  color: white;
-}
-
-.paper-meta {
-  color: #6c757d;
-  font-size: 0.9em;
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.paper-meta i {
-  width: 16px;
-  text-align: center;
-}
-
-.paper-title {
-  color: #343a40;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  line-height: 1.4;
-  font-size: 1.1em;
-}
-
-.paper-abstract {
-  color: #6c757d;
-  font-size: 0.95em;
-  line-height: 1.5;
-  margin-bottom: 0;
-}
-
-.paper-item {
-  animation-fill-mode: both;
-}
-
-/* Ensure rows are properly displayed */
-.paper-row {
-  margin-bottom: 0;
+.pub-filters { display: flex; gap: .75rem; margin-bottom: 1rem; }
+.pub-search { flex: 1; }
+.pub-year { width: 170px; flex: none; }
+.pub-types { margin-bottom: 1.5rem; }
+.pub-count { font-size: .9rem; font-weight: 600; color: var(--ui-muted); margin-bottom: 1rem; }
+.pub-card .ui-card-title { padding-right: 1.5rem; margin-top: .3rem; }
+.pub-authors { font-size: .88rem; }
+.pub-authors strong { color: var(--ui-text); }
+.pub-more { white-space: nowrap; font-weight: 600; color: var(--ui-accent); }
+.pub-empty { text-align: center; padding: 3rem 1rem; color: var(--ui-muted); }
+.pub-empty i { font-size: 2rem; color: var(--ui-faint); margin-bottom: .75rem; }
+@media (max-width: 640px) {
+  .pub-filters { flex-direction: column; }
+  .pub-year { width: 100%; }
 }
 </style>

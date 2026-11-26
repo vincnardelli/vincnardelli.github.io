@@ -1,5 +1,5 @@
 ---
-name: The impact of spatial outliers on spatial correlation: the role of the local influence function
+name: "The impact of spatial outliers on spatial correlation: the role of the local influence function"
 category: Journal Article
 year: 2026
 date: 2026-01-01

@@ -1,5 +1,5 @@
 ---
-name: The Burden on Italian Competitiveness: Assessing the Economic Costs of EU Regulation
+name: "The Burden on Italian Competitiveness: Assessing the Economic Costs of EU Regulation"
 category: Journal Article
 year: 2026
 date: 2026-08-05

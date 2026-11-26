@@ -1,438 +1,321 @@
 ---
 layout: default
 title: Conferences
+title_it: Conferenze
 permalink: /conferences/
 weight: 2
 ---
 
-<div class="m-3 mt-5">
-  <h2>Conferences</h2>  
-  <!-- Map Section -->
-  <div class="mb-5">
-    <div id="map" style="height: 600px; width: 100%; margin-top: 20px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
-  </div>
+<section class="ui-hero">
+  <span class="ui-eyebrow"><i class="fas fa-microphone-alt"></i> {% include t.html en="Talks" it="Interventi" %}</span>
+  <h1 class="ui-title">{% include t.html en="Conferences" it="Conferenze" %}</h1>
+</section>
 
-  <!-- Statistics -->
-  <div class="row mb-5">
-    <div class="col-md-4 mb-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title" id="total-conferences">-</h5>
-          <p class="card-text">Total Conferences</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title" id="total-countries">-</h5>
-          <p class="card-text">Countries Visited</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title" id="total-cities">-</h5>
-          <p class="card-text">Cities Visited</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="ui-stats">
+  <div class="ui-stat"><div class="ui-stat-value" id="stat-total">–</div><div class="ui-stat-label">{% include t.html en="Conferences" it="Conferenze" %}</div></div>
+  <div class="ui-stat"><div class="ui-stat-value" id="stat-countries">–</div><div class="ui-stat-label">{% include t.html en="Countries" it="Paesi" %}</div></div>
+  <div class="ui-stat"><div class="ui-stat-value" id="stat-cities">–</div><div class="ui-stat-label">{% include t.html en="Cities" it="Città" %}</div></div>
+</section>
 
-  <!-- Conferences List -->
-  <div>
-    <h3 class="mb-3">List</h3>
-    <div id="conferences-container" class="mt-4">
-      <!-- Conferences will be loaded here -->
-    </div>
+<section class="ui-section">
+  <div class="conf-map-card">
+    <div id="map" role="region" aria-label="Map of conference locations" data-en-aria-label="Map of conference locations" data-it-aria-label="Mappa dei luoghi delle conferenze"></div>
   </div>
-</div>
+</section>
 
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<section class="ui-section">
+  <div class="ui-section-head"><h2 class="ui-section-title">{% include t.html en="All conferences" it="Tutte le conferenze" %}</h2></div>
+  <div id="conf-list"></div>
+</section>
+
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.css">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
 
 <script>
-(function() {
-  const primaryColor = '#80bdff';
-  let conferencesData = [];
-  
-  // Fetch conferences data
+(function () {
+  var MAPBOX_TOKEN = '{{ site.mapbox_token }}';
+
+  function esc(s) {
+    return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  }
+  function fmt(d, opts) { return new Date(d).toLocaleDateString(window.i18n.locale(), opts); }
+  var T = function (en, it) { return window.i18n.t(en, it); };
+
   fetch('{{ "/assets/conferences.json" | relative_url }}')
-    .then(response => response.json())
-    .then(conferences => {
-      conferencesData = conferences;
-      
-      // Initialize map
-      const map = L.map('map').setView([45.0, 10.0], 3);
-      
-      // Add CartoDB Positron tiles (light, clean basemap)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
-      }).addTo(map);
-      
-      // Group markers by location (to handle multiple conferences in same city)
-      const locationGroups = {};
-      conferences.forEach(conf => {
-        const key = `${conf.lat}_${conf.lon}`;
-        if (!locationGroups[key]) {
-          locationGroups[key] = [];
-        }
-        locationGroups[key].push(conf);
-      });
-      
-      // Add circular markers with site primary color
-      const markerIcon = L.divIcon({
-        className: 'custom-marker',
-        html: `<div style="background-color: ${primaryColor}; width: 24px; height: 24px; border-radius: 50%; border: 4px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.25); cursor: pointer; transition: transform 0.2s;"></div>`,
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
-      });
-      
-      Object.values(locationGroups).forEach(group => {
-        const conf = group[0];
-        const date = new Date(conf.data);
-        const formattedDate = date.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
-        });
-        
-        // Create popup content with site styling
-        let popupContent = '<div class="conference-popup">';
-        
-        if (group.length === 1) {
-          popupContent += `
-            <div class="popup-header" style="background: linear-gradient(120deg, ${primaryColor}, 70%, ${primaryColor} 100%);">
-              <h6 class="popup-title">${conf.nome_conferenza}</h6>
-            </div>
-            <div class="popup-body">
-              <p class="popup-info"><i class="fas fa-calendar-alt"></i> <span>${formattedDate}</span></p>
-              <p class="popup-info"><i class="fas fa-map-marker-alt"></i> <span>${conf.luogo}</span></p>
-            </div>
-          `;
-        } else {
-          popupContent += `
-            <div class="popup-header" style="background: linear-gradient(120deg, ${primaryColor}, 70%, ${primaryColor} 100%);">
-              <h6 class="popup-title"><i class="fas fa-map-marker-alt"></i> ${conf.luogo}</h6>
-              <span class="popup-badge">${group.length} conferences</span>
-            </div>
-            <div class="popup-body ${group.length > 4 ? 'popup-body-scrollable' : ''}">
-          `;
-          group.sort((a, b) => new Date(b.data) - new Date(a.data));
-          group.forEach((c, idx) => {
-            const d = new Date(c.data);
-            popupContent += `
-              <div class="popup-conference-item ${idx < group.length - 1 ? 'popup-divider' : ''}">
-                <strong class="popup-conference-name">${c.nome_conferenza}</strong>
-                <small class="popup-conference-date">${d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</small>
-              </div>
-            `;
-          });
-          popupContent += '</div>';
-        }
-        popupContent += '</div>';
-        
-        // Create marker with custom icon
-        const marker = L.marker([conf.lat, conf.lon], { icon: markerIcon }).addTo(map);
-        marker.bindPopup(popupContent);
-      });
-      
-      // Fit map to show all markers
-      if (conferences.length > 0) {
-        const bounds = conferences.map(c => [c.lat, c.lon]);
-        map.fitBounds(bounds, { padding: [50, 50] });
-      }
-      
-      // Calculate statistics
-      const totalConferences = conferences.length;
-      const countries = new Set();
-      const cities = new Set();
-      
-      conferences.forEach(conf => {
-        const parts = conf.luogo.split(',');
-        if (parts.length > 1) {
-          countries.add(parts[parts.length - 1].trim());
-        }
-        cities.add(conf.luogo);
-      });
-      
-      document.getElementById('total-conferences').textContent = totalConferences;
-      document.getElementById('total-countries').textContent = countries.size;
-      document.getElementById('total-cities').textContent = cities.size;
-      
-      // Render conferences list
-      renderConferencesList(conferences);
+    .then(function (r) { return r.json(); })
+    .then(function (confs) {
+      confs.sort(function (a, b) { return new Date(b.data) - new Date(a.data); });
+      stats(confs);
+      list(confs);
+      window.i18n.onChange(function () { list(confs); });
+      map(confs);
     })
-    .catch(error => {
-      console.error('Error loading conferences:', error);
-      document.getElementById('map').innerHTML = 
-        '<div class="alert alert-danger">Error loading map. Please try again later.</div>';
-      document.getElementById('conferences-container').innerHTML = 
-        '<p class="text-danger">Error loading conferences. Please try again later.</p>';
+    .catch(function () {
+      document.getElementById('conf-list').innerHTML = '<p class="text-danger">' + T('Could not load conferences. Please try again later.', 'Impossibile caricare le conferenze. Riprova più tardi.') + '</p>';
     });
-  
-  function renderConferencesList(conferences) {
-    // Sort by date (newest first)
-    conferences.sort((a, b) => new Date(b.data) - new Date(a.data));
-    
-    const container = document.getElementById('conferences-container');
-    let itemCount = 0;
-    
-    conferences.forEach(conf => {
-      const date = new Date(conf.data);
-      const year = date.getFullYear();
-      const formattedDate = date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+
+  function stats(confs) {
+    var countries = new Set(), cities = new Set();
+    confs.forEach(function (c) {
+      var parts = c.luogo.split(',');
+      if (parts.length > 1) countries.add(parts[parts.length - 1].trim());
+      cities.add(c.luogo);
+    });
+    document.getElementById('stat-total').textContent = confs.length;
+    document.getElementById('stat-countries').textContent = countries.size;
+    document.getElementById('stat-cities').textContent = cities.size;
+  }
+
+  function list(confs) {
+    var byYear = {};
+    confs.forEach(function (c) { var y = new Date(c.data).getFullYear(); (byYear[y] = byYear[y] || []).push(c); });
+    var html = '';
+    Object.keys(byYear).sort().reverse().forEach(function (y) {
+      html += '<div class="conf-year"><div class="conf-year-label"><span>' + y + '</span><small>' + byYear[y].length + '</small></div><div class="conf-items">';
+      byYear[y].forEach(function (c) {
+        html += '<div class="conf-item">' +
+          '<div class="conf-date"><strong>' + fmt(c.data, { day: '2-digit' }) + '</strong><span>' + fmt(c.data, { month: 'short' }) + '</span></div>' +
+          '<div class="conf-body"><div class="conf-name">' + esc(c.nome_conferenza) + '</div>' +
+          '<div class="conf-place"><i class="fas fa-map-marker-alt"></i>' + esc(c.luogo) + '</div></div></div>';
       });
-      
-      // Start of row for every three items
-      if (itemCount % 3 === 0) {
-        const row = document.createElement('div');
-        row.className = 'row conference-row';
-        row.id = `conference-row-${Math.floor(itemCount / 3)}`;
-        container.appendChild(row);
+      html += '</div></div>';
+    });
+    document.getElementById('conf-list').innerHTML = html;
+  }
+
+  // Colori del sito usati per la mappa
+  var C = {
+    accent: '#2f7ae5', accentDark: '#1f66cc', water: '#dce9fb', land: '#f8fafc',
+    border: '#c9d6e8', label: '#687083', labelStrong: '#1d2433', halo: '#ffffff'
+  };
+
+  function styleMap(m) {
+    m.getStyle().layers.forEach(function (l) {
+      var id = l.id;
+      if (/^conf-/.test(id)) return;   // livelli nostri: non toccarli
+      var hide = /road|bridge|tunnel|transit|aeroway|poi|building|landuse|landcover|national-park|hillshade|land-structure|ferry|settlement-minor|settlement-subdivision|airport|natural|waterway-label|water-line-label|state-label|admin-1/.test(id);
+      if (hide) { m.setLayoutProperty(id, 'visibility', 'none'); return; }
+      if (l.type === 'background') m.setPaintProperty(id, 'background-color', C.land);
+      else if (l.type === 'fill' && /^water/.test(id)) m.setPaintProperty(id, 'fill-color', C.water);
+      else if (l.type === 'fill' && /^land/.test(id)) m.setPaintProperty(id, 'fill-color', C.land);
+      else if (l.type === 'line' && /waterway/.test(id)) m.setPaintProperty(id, 'line-color', C.water);
+      else if (l.type === 'line' && /admin/.test(id)) { m.setPaintProperty(id, 'line-color', C.border); m.setPaintProperty(id, 'line-dasharray', [1, 0]); }
+      else if (l.type === 'symbol') {
+        m.setPaintProperty(id, 'text-color', /country/.test(id) ? C.label : C.labelStrong);
+        m.setPaintProperty(id, 'text-halo-color', C.halo);
+        m.setPaintProperty(id, 'text-halo-width', 1.5);
+        if (/water|marine/.test(id)) m.setPaintProperty(id, 'text-color', '#8fb2e3');
       }
-      
-      // Get current row
-      const currentRow = document.getElementById(`conference-row-${Math.floor(itemCount / 3)}`);
-      
-      // Create conference card column
-      const col = document.createElement('div');
-      col.className = 'col-md-4 wow animated fadeIn conference-item mb-4';
-      col.setAttribute('data-wow-delay', '.15s');
-      col.setAttribute('data-year', year);
-      
-      // Create card with same style as papers but with light blue accent
-      col.innerHTML = `
-        <div class="wow animated fadeIn" data-wow-delay=".15s">
-          <div class="conference-card project card text-dark">
-            <div class="card-body">
-              <p class="conference-meta">${formattedDate}</p>
-              <h5 class="card-title conference-title">
-                ${conf.nome_conferenza}
-              </h5>
-              <p class="card-text conference-location">
-                <i class="fas fa-map-marker-alt" style="color: ${primaryColor};"></i> ${conf.luogo}
-              </p>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      currentRow.appendChild(col);
-      itemCount++;
+    });
+  }
+
+  function map(confs) {
+    mapboxgl.accessToken = MAPBOX_TOKEN;
+    var MAX_PER_CLUSTER = 10;   // nessun gruppo supera 10 conferenze
+    var CLUSTER_PX = 30;        // distanza in pixel entro cui i punti si raggruppano
+
+    // Una sola posizione per città, con l'elenco delle conferenze
+    var groups = {};
+    confs.forEach(function (c) { var k = c.lat + '_' + c.lon; (groups[k] = groups[k] || []).push(c); });
+    var places = Object.keys(groups).map(function (k) {
+      var g = groups[k];
+      return { lng: g[0].lon, lat: g[0].lat, place: g[0].luogo, items: g };
+    }).sort(function (a, b) { return b.items.length - a.items.length; });
+
+    var bounds = new mapboxgl.LngLatBounds();
+    places.forEach(function (p) { bounds.extend([p.lng, p.lat]); });
+
+    var m = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v11',
+      language: window.i18n.lang,
+      bounds: bounds,
+      fitBoundsOptions: { padding: 50 },
+      projection: 'mercator',
+      cooperativeGestures: true,
+      dragRotate: false,
+      pitchWithRotate: false,
+      attributionControl: false
+    });
+    m.addControl(new mapboxgl.AttributionControl({ compact: true }));
+    m.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
+    m.touchZoomRotate.disableRotation();
+
+    // Raggruppamento greedy in pixel con tetto di MAX_PER_CLUSTER conferenze
+    function build() {
+      var clusters = [];
+      places.forEach(function (p) {
+        var pt = m.project([p.lng, p.lat]);
+        var n = p.items.length, best = null, bestD = Infinity;
+        clusters.forEach(function (c) {
+          var d = Math.hypot(c.x - pt.x, c.y - pt.y);
+          if (d < CLUSTER_PX && d < bestD && c.total + n <= MAX_PER_CLUSTER) { best = c; bestD = d; }
+        });
+        if (best) { best.members.push(p); best.total += n; }
+        else clusters.push({ x: pt.x, y: pt.y, members: [p], total: n });
+      });
+      // Centro pesato in pixel e raggio visivo di ogni gruppo
+      clusters.forEach(function (c) {
+        var x = 0, y = 0;
+        c.members.forEach(function (p) { var q = m.project([p.lng, p.lat]); x += q.x * p.items.length; y += q.y * p.items.length; });
+        c.x = x / c.total; c.y = y / c.total;
+        c.r = (c.members.length > 1 ? 11 + (c.total - 2) / 8 * 5 : 7 + (c.total - 1) / 6 * 5) + 3;
+      });
+      // Allontana i cerchi che si sovrappongono (pochi passaggi bastano)
+      for (var it = 0; it < 40; it++) {
+        var moved = false;
+        for (var i = 0; i < clusters.length; i++) for (var j = i + 1; j < clusters.length; j++) {
+          var a = clusters[i], b = clusters[j], dx = b.x - a.x, dy = b.y - a.y;
+          var d = Math.hypot(dx, dy) || 0.01, min = a.r + b.r;
+          if (d < min) {
+            var push = (min - d) / 2, ux = dx / d, uy = dy / d;
+            a.x -= ux * push; a.y -= uy * push; b.x += ux * push; b.y += uy * push; moved = true;
+          }
+        }
+        if (!moved) break;
+      }
+      return {
+        type: 'FeatureCollection',
+        features: clusters.map(function (c, i) {
+          var single = c.members.length === 1;
+          var ll = m.unproject([c.x, c.y]);
+          return {
+            type: 'Feature', id: i,
+            geometry: { type: 'Point', coordinates: [ll.lng, ll.lat] },
+            properties: {
+              cluster: !single, total: c.total,
+              place: single ? c.members[0].place : '',
+              members: JSON.stringify(c.members.map(function (p) { return [p.lng, p.lat]; })),
+              items: single ? JSON.stringify(c.members[0].items) : ''
+            }
+          };
+        })
+      };
+    }
+
+    // Cambiando lingua Mapbox ricarica lo stile: ricoloriamo e rimettiamo i nostri livelli
+    var wired = false;
+    window.i18n.onChange(function (l) {
+      m.setLanguage(l);
+      m.once('idle', function () { styleMap(m); if (!m.getSource('conf')) addLayers(); });
+    });
+
+    function addLayers() {
+      m.addSource('conf', { type: 'geojson', data: build() });
+
+      var radius = ['case', ['get', 'cluster'],
+        ['interpolate', ['linear'], ['get', 'total'], 2, 11, 10, 16],
+        ['interpolate', ['linear'], ['get', 'total'], 1, 7, 7, 12]];
+      m.addLayer({ id: 'conf-halo', type: 'circle', source: 'conf', paint: {
+        'circle-color': C.accent, 'circle-opacity': .16, 'circle-blur': .4,
+        'circle-radius': ['+', radius, 6]
+      }});
+      m.addLayer({ id: 'conf-points', type: 'circle', source: 'conf', paint: {
+        'circle-color': C.accent,
+        'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2.5,
+        'circle-radius': radius
+      }});
+      m.addLayer({ id: 'conf-count', type: 'symbol', source: 'conf',
+        filter: ['>', ['get', 'total'], 1],
+        layout: {
+          'text-field': ['to-string', ['get', 'total']],
+          'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'], 'text-size': 11,
+          'text-allow-overlap': true, 'text-ignore-placement': true
+        },
+        paint: { 'text-color': '#ffffff' }
+      });
+
+    }
+
+    m.on('style.load', function () {
+      styleMap(m);
+      if (!m.getSource('conf')) addLayers();
+      if (wired) return;
+      wired = true;
+
+      m.on('moveend', function () { if (m.getSource('conf')) m.getSource('conf').setData(build()); });
+
+      m.on('click', 'conf-points', function (e) {
+        var f = e.features[0], pr = f.properties;
+        if (pr.cluster) {
+          var b = new mapboxgl.LngLatBounds();
+          JSON.parse(pr.members).forEach(function (c) { b.extend(c); });
+          m.fitBounds(b, { padding: 90, maxZoom: 11 });
+          return;
+        }
+        var items = JSON.parse(pr.items);
+        var html = '<div class="conf-pop"><div class="conf-pop-place"><i class="fas fa-map-marker-alt"></i> ' + esc(pr.place) +
+          (items.length > 1 ? ' <span>' + items.length + ' ' + T('conferences', 'conferenze') + '</span>' : '') + '</div><div class="conf-pop-list">';
+        items.forEach(function (x) {
+          html += '<div class="conf-pop-item"><strong>' + esc(x.nome_conferenza) + '</strong><small>' +
+            fmt(x.data, { day: 'numeric', month: 'long', year: 'numeric' }) + '</small></div>';
+        });
+        html += '</div></div>';
+        new mapboxgl.Popup({ offset: 14, maxWidth: '300px', className: 'conf-popup' })
+          .setLngLat(f.geometry.coordinates).setHTML(html).addTo(m);
+      });
+      m.on('mouseenter', 'conf-points', function () { m.getCanvas().style.cursor = 'pointer'; });
+      m.on('mouseleave', 'conf-points', function () { m.getCanvas().style.cursor = ''; });
     });
   }
 })();
 </script>
 
 <style>
-.leaflet-container {
-  z-index: 1;
-  font-family: 'Poppins', 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+.conf-map-card {
+  border: 2px solid var(--ui-border); border-radius: var(--ui-radius);
+  overflow: hidden; box-shadow: var(--ui-shadow-soft);
 }
-
-.custom-marker {
-  background: transparent;
-  border: none;
+#map { height: 520px; width: 100%; background: #dce9fb; }
+#map .mapboxgl-ctrl-group { border-radius: 12px; box-shadow: 0 4px 14px rgba(29, 36, 51, .12); overflow: hidden; }
+#map .mapboxgl-ctrl-group button { width: 34px; height: 34px; }
+#map .mapboxgl-ctrl-attrib { font-size: 11px; }
+#map .mapboxgl-cooperative-gesture-screen { font-family: inherit; font-weight: 600; background: rgba(29, 36, 51, .55); }
+.conf-popup .mapboxgl-popup-content { padding: 0; border-radius: 16px; box-shadow: 0 12px 32px rgba(29, 36, 51, .18); font-family: inherit; overflow: hidden; }
+.conf-popup .mapboxgl-popup-close-button { top: 6px; right: 6px; font-size: 18px; color: var(--ui-muted); border-radius: 8px; }
+.conf-popup .mapboxgl-popup-close-button:hover { background: #f1f4f8; }
+.conf-popup .mapboxgl-popup-close-button:focus { outline: none; }
+.conf-popup .mapboxgl-popup-close-button:focus-visible { outline: 2px solid var(--ui-accent-line); }
+.conf-pop-place {
+  padding: .8rem 2.2rem .7rem 1rem; font-weight: 700; color: var(--ui-text);
+  border-bottom: 1px solid var(--ui-border); font-size: .9rem;
 }
-
-.custom-marker div:hover {
-  transform: scale(1.15);
+.conf-pop-place i { color: var(--ui-accent); margin-right: .25rem; }
+.conf-pop-place span {
+  display: inline-block; margin-left: .3rem; padding: .1rem .5rem; border-radius: 99px;
+  background: var(--ui-accent-soft); color: var(--ui-accent); font-size: .72rem;
 }
+.conf-pop-list { max-height: 220px; overflow-y: auto; padding: .4rem 0; }
+.conf-pop-item { padding: .45rem 1rem; }
+.conf-pop-item strong { display: block; font-size: .85rem; line-height: 1.35; color: var(--ui-text); }
+.conf-pop-item small { color: var(--ui-muted); font-size: .78rem; }
 
-#map {
-  min-height: 600px;
+.conf-year { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid var(--ui-border); }
+.conf-year:first-child { border-top: 0; padding-top: 0; }
+.conf-year-label span { display: block; font-size: 1.6rem; font-weight: 800; color: var(--ui-text); letter-spacing: -.02em; position: sticky; top: 90px; }
+.conf-year-label small { font-size: .8rem; font-weight: 600; color: var(--ui-muted); }
+.conf-items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.conf-item {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1rem 1.1rem; border: 2px solid var(--ui-border); border-radius: 16px; background: var(--ui-surface);
+  transition: border-color .15s;
 }
-
-.card {
-  transition: transform 0.2s;
+.conf-item:hover { border-color: var(--ui-accent-line); }
+.conf-date {
+  flex: none; width: 52px; padding: .35rem 0; text-align: center; border-radius: 12px;
+  background: var(--ui-accent-soft); color: var(--ui-accent); line-height: 1.1;
 }
+.conf-date strong { display: block; font-size: 1.15rem; font-weight: 800; }
+.conf-date span { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.conf-name { font-weight: 700; line-height: 1.35; font-size: .97rem; }
+.conf-place { margin-top: .3rem; font-size: .85rem; color: var(--ui-muted); }
+.conf-place i { color: var(--ui-accent); margin-right: .35rem; }
 
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-/* Conference Popup Styling */
-.conference-popup {
-  font-family: 'Poppins', 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  max-width: 480px;
-  min-width: 360px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.popup-header {
-  padding: 18px 24px;
-  color: white;
-  position: relative;
-}
-
-.popup-title {
-  margin: 0;
-  font-size: 1.15em;
-  font-weight: 600;
-  color: white;
-  line-height: 1.5;
-  word-wrap: break-word;
-}
-
-.popup-badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.25);
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.85em;
-  margin-top: 8px;
-  font-weight: 500;
-}
-
-.popup-body {
-  padding: 20px 24px;
-  background: white;
-}
-
-.popup-body-scrollable {
-  max-height: 450px;
-  overflow-y: auto;
-}
-
-.popup-info {
-  margin: 8px 0;
-  color: #343a40;
-  font-size: 0.95em;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.popup-info i {
-  color: #80bdff;
-  width: 18px;
-  text-align: center;
-}
-
-.popup-info span {
-  color: #6c757d;
-}
-
-.popup-conference-item {
-  padding: 12px 0;
-}
-
-.popup-conference-item.popup-divider {
-  border-bottom: 1px solid #e9ecef;
-  margin-bottom: 4px;
-  padding-bottom: 14px;
-}
-
-.popup-conference-name {
-  display: block;
-  color: #343a40;
-  font-size: 0.98em;
-  font-weight: 600;
-  margin-bottom: 6px;
-  line-height: 1.5;
-  word-wrap: break-word;
-}
-
-.popup-conference-date {
-  display: block;
-  color: #6c757d;
-  font-size: 0.85em;
-  margin-top: 4px;
-}
-
-/* Leaflet popup customization */
-.leaflet-popup-content-wrapper {
-  border-radius: 12px;
-  padding: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  max-width: 500px;
-}
-
-.leaflet-popup-content {
-  margin: 0;
-  width: auto !important;
-  min-width: 360px;
-}
-
-.leaflet-popup-tip {
-  background: white;
-}
-
-/* Custom scrollbar for popup body */
-.popup-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-.popup-body::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.popup-body::-webkit-scrollbar-thumb {
-  background: #80bdff;
-  border-radius: 4px;
-}
-
-.popup-body::-webkit-scrollbar-thumb:hover {
-  background: #5aa3e8;
-}
-
-/* Conference List Card Styling */
-.conference-card {
-  transition: transform 0.2s, box-shadow 0.2s;
-  height: 100%;
-  border: 1px solid #e9ecef;
-}
-
-.conference-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(128, 189, 255, 0.3);
-  border-color: #80bdff;
-}
-
-.conference-meta {
-  color: #6c757d;
-  font-size: 0.9em;
-  margin-bottom: 0.5rem;
-}
-
-.conference-title {
-  color: #343a40;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  line-height: 1.4;
-}
-
-.conference-location {
-  color: #6c757d;
-  margin-bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.conference-location i {
-  font-size: 1.1em;
-}
-
-.conference-item {
-  animation-fill-mode: both;
-}
-
-/* Ensure rows are properly displayed */
-.conference-row {
-  margin-bottom: 0;
+@media (max-width: 800px) {
+  .conf-year { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+  .conf-year-label { display: flex; align-items: baseline; gap: .6rem; }
+  .conf-year-label span { position: static; }
+  .conf-items { grid-template-columns: minmax(0, 1fr); }
+  #map { height: 380px; }
 }
 </style>

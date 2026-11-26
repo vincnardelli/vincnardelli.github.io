@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" width="1200" height="690">
+<defs>
+  <linearGradient id="bgt" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f3f7ff"/><stop offset="1" stop-color="#dde9fb"/>
+  </linearGradient>
+  <radialGradient id="blobAt"><stop offset="0" stop-color="#80bdff" stop-opacity=".75"/><stop offset="1" stop-color="#80bdff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="blobVt"><stop offset="0" stop-color="#7b5cf0" stop-opacity=".35"/><stop offset="1" stop-color="#7b5cf0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="fadet" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <mask id="dotmaskt"><rect width="1200" height="690" fill="url(#fadet)"/></mask>
+  <pattern id="dotst" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" fill="#aac7f2"/></pattern>
+  <linearGradient id="gAt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7ae5" stop-opacity=".55"/><stop offset="1" stop-color="#2f7ae5" stop-opacity=".04"/></linearGradient>
+  <linearGradient id="gLt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#80bdff" stop-opacity=".7"/><stop offset="1" stop-color="#80bdff" stop-opacity=".05"/></linearGradient>
+  <linearGradient id="gVt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7b5cf0" stop-opacity=".45"/><stop offset="1" stop-color="#7b5cf0" stop-opacity=".03"/></linearGradient>
+  <linearGradient id="linet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#80bdff"/><stop offset="1" stop-color="#2f7ae5"/></linearGradient>
+  <linearGradient id="lineVt" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2f7ae5"/><stop offset="1" stop-color="#7b5cf0"/></linearGradient>
+  <linearGradient id="nodet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#80bdff"/><stop offset="1" stop-color="#2f7ae5"/></linearGradient>
+  <filter id="sht" x="-20%" y="-20%" width="140%" height="150%">
+    <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#1d4f9e" flood-opacity=".16"/>
+  </filter>
+  <filter id="shst" x="-30%" y="-30%" width="160%" height="180%">
+    <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1d4f9e" flood-opacity=".18"/>
+  </filter>
+  <filter id="glowt" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <clipPath id="clipt"><rect x="268" y="173" width="664" height="384" rx="18"/></clipPath>
+  <marker id="arrt" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2f7ae5"/></marker>
+</defs>
+<rect width="1200" height="690" fill="url(#bgt)"/>
+<circle cx="170" cy="560" r="340" fill="url(#blobAt)"/>
+<circle cx="1060" cy="140" r="330" fill="url(#blobVt)"/>
+<circle cx="1100" cy="600" r="220" fill="url(#blobAt)"/>
+<rect width="1200" height="690" fill="url(#dotst)" mask="url(#dotmaskt)" opacity=".55"/>
+<rect x="250" y="115" width="700" height="460" rx="30" fill="#fff" filter="url(#sht)"/><g transform="translate(284,147)"><circle cx="0" cy="0" r="7" fill="#bcd6fa"/><circle cx="22" cy="0" r="7" fill="#bcd6fa"/><circle cx="44" cy="0" r="7" fill="#bcd6fa"/><rect x="482" y="-7" width="150" height="14" rx="7" fill="#e4eefc"/></g>
+<line x1="400" y1="259" x2="400" y2="419" stroke="#2f7ae5" stroke-width="5" stroke-linecap="round"/>
+<line x1="378" y1="259" x2="422" y2="259" stroke="#2f7ae5" stroke-width="5" stroke-linecap="round"/>
+<line x1="378" y1="419" x2="422" y2="419" stroke="#2f7ae5" stroke-width="5" stroke-linecap="round"/>
+<rect x="358" y="297" width="84" height="83" rx="12" fill="#2f7ae5" opacity=".22" stroke="#2f7ae5" stroke-width="5"/>
+<line x1="358" y1="339" x2="442" y2="339" stroke="#1d4f9e" stroke-width="6" stroke-linecap="round"/>
+<line x1="535" y1="227" x2="535" y2="387" stroke="#80bdff" stroke-width="5" stroke-linecap="round"/>
+<line x1="513" y1="227" x2="557" y2="227" stroke="#80bdff" stroke-width="5" stroke-linecap="round"/>
+<line x1="513" y1="387" x2="557" y2="387" stroke="#80bdff" stroke-width="5" stroke-linecap="round"/>
+<rect x="493" y="278" width="84" height="61" rx="12" fill="#80bdff" opacity=".22" stroke="#80bdff" stroke-width="5"/>
+<line x1="493" y1="313" x2="577" y2="313" stroke="#1d4f9e" stroke-width="6" stroke-linecap="round"/>
+<line x1="670" y1="304" x2="670" y2="457" stroke="#7b5cf0" stroke-width="5" stroke-linecap="round"/>
+<line x1="648" y1="304" x2="692" y2="304" stroke="#7b5cf0" stroke-width="5" stroke-linecap="round"/>
+<line x1="648" y1="457" x2="692" y2="457" stroke="#7b5cf0" stroke-width="5" stroke-linecap="round"/>
+<rect x="628" y="349" width="84" height="70" rx="12" fill="#7b5cf0" opacity=".22" stroke="#7b5cf0" stroke-width="5"/>
+<line x1="628" y1="387" x2="712" y2="387" stroke="#1d4f9e" stroke-width="6" stroke-linecap="round"/>
+<line x1="805" y1="246" x2="805" y2="403" stroke="#2f7ae5" stroke-width="5" stroke-linecap="round"/>
+<line x1="783" y1="246" x2="827" y2="246" stroke="#2f7ae5" stroke-width="5" stroke-linecap="round"/>
+<line x1="783" y1="403" x2="827" y2="403" stroke="#2f7ae5" stroke-width="5" stroke-linecap="round"/>
+<rect x="763" y="291" width="84" height="64" rx="12" fill="#2f7ae5" opacity=".22" stroke="#2f7ae5" stroke-width="5"/>
+<line x1="763" y1="323" x2="847" y2="323" stroke="#1d4f9e" stroke-width="6" stroke-linecap="round"/>
+<line x1="320" y1="530" x2="890" y2="530" stroke="#bcd6fa" stroke-width="4" stroke-linecap="round"/>
+<g filter="url(#shst)"><rect x="85" y="150" width="150" height="130" rx="22" fill="#fff"/></g><g transform="translate(85,150)"><text x="75" y="98" text-anchor="middle" font-family="Georgia,serif" font-size="74" font-weight="700" fill="url(#nodet)">σ</text></g>
+<g filter="url(#shst)"><rect x="905" y="400" width="210" height="130" rx="22" fill="#fff"/></g><g transform="translate(905,400)"><circle cx="62" cy="65" r="38" fill="#e4eefc"/><path d="M62 65 L62 27 A38 38 0 0 1 98 78 Z" fill="url(#nodet)"/><rect x="118" y="48" width="70" height="12" rx="6" fill="#e4eefc"/><rect x="118" y="72" width="45" height="12" rx="6" fill="#bcd6fa"/></g>
+</svg>

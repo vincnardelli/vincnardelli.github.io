@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" width="1200" height="690">
+<defs>
+  <linearGradient id="bgm" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f3f7ff"/><stop offset="1" stop-color="#dde9fb"/>
+  </linearGradient>
+  <radialGradient id="blobAm"><stop offset="0" stop-color="#80bdff" stop-opacity=".75"/><stop offset="1" stop-color="#80bdff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="blobVm"><stop offset="0" stop-color="#7b5cf0" stop-opacity=".35"/><stop offset="1" stop-color="#7b5cf0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="fadem" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <mask id="dotmaskm"><rect width="1200" height="690" fill="url(#fadem)"/></mask>
+  <pattern id="dotsm" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" fill="#aac7f2"/></pattern>
+  <linearGradient id="gAm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7ae5" stop-opacity=".55"/><stop offset="1" stop-color="#2f7ae5" stop-opacity=".04"/></linearGradient>
+  <linearGradient id="gLm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#80bdff" stop-opacity=".7"/><stop offset="1" stop-color="#80bdff" stop-opacity=".05"/></linearGradient>
+  <linearGradient id="gVm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7b5cf0" stop-opacity=".45"/><stop offset="1" stop-color="#7b5cf0" stop-opacity=".03"/></linearGradient>
+  <linearGradient id="linem" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#80bdff"/><stop offset="1" stop-color="#2f7ae5"/></linearGradient>
+  <linearGradient id="lineVm" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2f7ae5"/><stop offset="1" stop-color="#7b5cf0"/></linearGradient>
+  <linearGradient id="nodem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#80bdff"/><stop offset="1" stop-color="#2f7ae5"/></linearGradient>
+  <filter id="shm" x="-20%" y="-20%" width="140%" height="150%">
+    <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#1d4f9e" flood-opacity=".16"/>
+  </filter>
+  <filter id="shsm" x="-30%" y="-30%" width="160%" height="180%">
+    <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1d4f9e" flood-opacity=".18"/>
+  </filter>
+  <filter id="glowm" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <clipPath id="clipm"><rect x="268" y="173" width="664" height="384" rx="18"/></clipPath>
+  <marker id="arrm" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2f7ae5"/></marker>
+</defs>
+<rect width="1200" height="690" fill="url(#bgm)"/>
+<circle cx="170" cy="150" r="330" fill="url(#blobAm)"/>
+<circle cx="1050" cy="560" r="350" fill="url(#blobVm)"/>
+<circle cx="1080" cy="90" r="200" fill="url(#blobAm)"/>
+<rect width="1200" height="690" fill="url(#dotsm)" mask="url(#dotmaskm)" opacity=".55"/>
+<rect x="250" y="115" width="700" height="460" rx="30" fill="#fff" filter="url(#shm)"/><g transform="translate(284,147)"><circle cx="0" cy="0" r="7" fill="#bcd6fa"/><circle cx="22" cy="0" r="7" fill="#bcd6fa"/><circle cx="44" cy="0" r="7" fill="#bcd6fa"/><rect x="482" y="-7" width="150" height="14" rx="7" fill="#e4eefc"/></g>
+<path d="M893 385 Q893 385 879 422 Q864 458 801 472 Q738 485 694 498 Q650 511 593 528 Q537 545 483 527 Q428 510 392 481 Q357 453 358 419 Q359 385 360 352 Q361 319 398 292 Q435 265 488 251 Q541 237 596 246 Q651 256 704 264 Q756 272 790 297 Q823 323 858 354 Z" fill="#e4eefc"/>
+<path d="M390 445 Q530 461 610 345" fill="none" stroke="url(#lineVm)" stroke-width="7.0" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M390 445 Q597 576 810 455" fill="none" stroke="url(#lineVm)" stroke-width="7.1" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M450 275 Q509 358 610 345" fill="none" stroke="url(#lineVm)" stroke-width="5.4" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M450 275 Q576 473 810 455" fill="none" stroke="url(#lineVm)" stroke-width="4.3" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M580 505 Q643 434 610 345" fill="none" stroke="url(#lineVm)" stroke-width="3.0" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M580 505 Q710 549 810 455" fill="none" stroke="url(#lineVm)" stroke-width="6.3" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M610 345 Q677 460 810 455" fill="none" stroke="url(#lineVm)" stroke-width="5.4" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M770 255 Q663 252 610 345" fill="none" stroke="url(#lineVm)" stroke-width="6.8" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M770 255 Q730 367 810 455" fill="none" stroke="url(#lineVm)" stroke-width="4.9" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M870 345 Q740 267 610 345" fill="none" stroke="url(#lineVm)" stroke-width="6.9" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<path d="M870 345 Q807 382 810 455" fill="none" stroke="url(#lineVm)" stroke-width="4.4" stroke-linecap="round" opacity=".8" marker-end="url(#arrm)"/>
+<circle cx="390" cy="445" r="22" fill="#80bdff" opacity=".25"/>
+<circle cx="390" cy="445" r="11" fill="#2f7ae5" stroke="#fff" stroke-width="4"/>
+<circle cx="450" cy="275" r="22" fill="#80bdff" opacity=".25"/>
+<circle cx="450" cy="275" r="11" fill="#2f7ae5" stroke="#fff" stroke-width="4"/>
+<circle cx="580" cy="505" r="22" fill="#80bdff" opacity=".25"/>
+<circle cx="580" cy="505" r="11" fill="#2f7ae5" stroke="#fff" stroke-width="4"/>
+<circle cx="610" cy="345" r="38" fill="#80bdff" opacity=".25"/>
+<circle cx="610" cy="345" r="20" fill="url(#nodem)" stroke="#fff" stroke-width="4"/>
+<circle cx="770" cy="255" r="22" fill="#80bdff" opacity=".25"/>
+<circle cx="770" cy="255" r="11" fill="#2f7ae5" stroke="#fff" stroke-width="4"/>
+<circle cx="810" cy="455" r="38" fill="#80bdff" opacity=".25"/>
+<circle cx="810" cy="455" r="20" fill="url(#nodem)" stroke="#fff" stroke-width="4"/>
+<circle cx="870" cy="345" r="22" fill="#80bdff" opacity=".25"/>
+<circle cx="870" cy="345" r="11" fill="#2f7ae5" stroke="#fff" stroke-width="4"/>
+<g filter="url(#shsm)"><rect x="890" y="160" width="180" height="140" rx="22" fill="#fff"/></g><g transform="translate(890,160)"><path d="M30 50 Q90 15 150 50" fill="none" stroke="url(#lineVm)" stroke-width="7" stroke-linecap="round"/><circle cx="30" cy="50" r="9" fill="#2f7ae5"/><circle cx="150" cy="50" r="12" fill="#7b5cf0"/><rect x="30" y="85" width="120" height="12" rx="6" fill="#e4eefc"/><rect x="30" y="107" width="80" height="12" rx="6" fill="#e4eefc"/></g>
+</svg>

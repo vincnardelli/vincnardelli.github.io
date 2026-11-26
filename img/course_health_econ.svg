@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" width="1200" height="690">
+<defs>
+  <linearGradient id="bgq" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f3f7ff"/><stop offset="1" stop-color="#dde9fb"/>
+  </linearGradient>
+  <radialGradient id="blobAq"><stop offset="0" stop-color="#80bdff" stop-opacity=".75"/><stop offset="1" stop-color="#80bdff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="blobVq"><stop offset="0" stop-color="#7b5cf0" stop-opacity=".35"/><stop offset="1" stop-color="#7b5cf0" stop-opacity="0"/></radialGradient>
+  <radialGradient id="fadeq" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <mask id="dotmaskq"><rect width="1200" height="690" fill="url(#fadeq)"/></mask>
+  <pattern id="dotsq" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.8" fill="#aac7f2"/></pattern>
+  <linearGradient id="gAq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7ae5" stop-opacity=".55"/><stop offset="1" stop-color="#2f7ae5" stop-opacity=".04"/></linearGradient>
+  <linearGradient id="gLq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#80bdff" stop-opacity=".7"/><stop offset="1" stop-color="#80bdff" stop-opacity=".05"/></linearGradient>
+  <linearGradient id="gVq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7b5cf0" stop-opacity=".45"/><stop offset="1" stop-color="#7b5cf0" stop-opacity=".03"/></linearGradient>
+  <linearGradient id="lineq" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#80bdff"/><stop offset="1" stop-color="#2f7ae5"/></linearGradient>
+  <linearGradient id="lineVq" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2f7ae5"/><stop offset="1" stop-color="#7b5cf0"/></linearGradient>
+  <linearGradient id="nodeq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#80bdff"/><stop offset="1" stop-color="#2f7ae5"/></linearGradient>
+  <filter id="shq" x="-20%" y="-20%" width="140%" height="150%">
+    <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#1d4f9e" flood-opacity=".16"/>
+  </filter>
+  <filter id="shsq" x="-30%" y="-30%" width="160%" height="180%">
+    <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1d4f9e" flood-opacity=".18"/>
+  </filter>
+  <filter id="glowq" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <clipPath id="clipq"><rect x="268" y="173" width="664" height="384" rx="18"/></clipPath>
+  <marker id="arrq" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2f7ae5"/></marker>
+</defs>
+<rect width="1200" height="690" fill="url(#bgq)"/>
+<circle cx="170" cy="140" r="330" fill="url(#blobAq)"/>
+<circle cx="1070" cy="560" r="350" fill="url(#blobVq)"/>
+<circle cx="1100" cy="90" r="200" fill="url(#blobAq)"/>
+<rect width="1200" height="690" fill="url(#dotsq)" mask="url(#dotmaskq)" opacity=".55"/>
+<rect x="250" y="115" width="700" height="460" rx="30" fill="#fff" filter="url(#shq)"/><g transform="translate(284,147)"><circle cx="0" cy="0" r="7" fill="#bcd6fa"/><circle cx="22" cy="0" r="7" fill="#bcd6fa"/><circle cx="44" cy="0" r="7" fill="#bcd6fa"/><rect x="482" y="-7" width="150" height="14" rx="7" fill="#e4eefc"/></g>
+<rect x="630" y="190" width="250" height="315" fill="#e4eefc" opacity=".55"/>
+<path d="M330 445 L399 431 L468 417 L536 403 L605 389 L674 375 L742 361 L811 347 L880 333" fill="none" stroke="#80bdff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="330" cy="445" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="399" cy="431" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="468" cy="417" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="536" cy="403" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="605" cy="389" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="674" cy="375" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="742" cy="361" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="811" cy="347" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<circle cx="880" cy="333" r="9" fill="#80bdff" stroke="#fff" stroke-width="3"/>
+<path d="M330 395 L399 381 L468 367 L536 353 L605 339 L674 230 L742 216 L811 202 L880 188" fill="none" stroke="#2f7ae5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="330" cy="395" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="399" cy="381" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="468" cy="367" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="536" cy="353" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="605" cy="339" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="674" cy="230" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="742" cy="216" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="811" cy="202" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<circle cx="880" cy="188" r="9" fill="#2f7ae5" stroke="#fff" stroke-width="3"/>
+<path d="M605 339 L674 325 L742 311 L811 297 L880 283" fill="none" stroke="#7b5cf0" stroke-width="5" stroke-dasharray="12 10" stroke-linecap="round"/>
+<path d="M908.0 283 L908.0 188" stroke="#7b5cf0" stroke-width="5" stroke-linecap="round" marker-end="url(#arrq)"/>
+<line x1="630" y1="190" x2="630" y2="505" stroke="#1d4f9e" stroke-width="4" stroke-dasharray="8 8"/>
+<line x1="310" y1="505" x2="890" y2="505" stroke="#bcd6fa" stroke-width="4" stroke-linecap="round"/>
+<g filter="url(#shsq)"><rect x="85" y="150" width="180" height="130" rx="22" fill="#fff"/></g><g transform="translate(85,150)"><rect x="30" y="40" width="120" height="50" rx="25" fill="url(#nodeq)"/><rect x="90" y="40" width="60" height="50" rx="0" fill="#7b5cf0" opacity=".85"/><rect x="90" y="40" width="60" height="50" rx="25" fill="#7b5cf0"/><rect x="30" y="40" width="120" height="50" rx="25" fill="none" stroke="#fff" stroke-width="4"/></g>
+</svg>

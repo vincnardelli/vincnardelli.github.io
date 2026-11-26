@@ -1,44 +1,60 @@
 ---
-layout: page
+layout: default
 ---
-<h5>{{page.category}} | {{page.journal}} ({{page.year}})</h5>
-<h1><b>{{ page.name }}</b></h1>
 
-<h4>{{page.authors}}</h4>
+<article class="paper-page">
+  <a class="paper-back" href="{{ '/publications/' | relative_url }}"><i class="fas fa-arrow-left"></i> {% include t.html en="All publications" it="Tutte le pubblicazioni" %}</a>
 
-{%- if page.image -%}
-<img id="{{ project_id }}-img" class="card-img-top" src="{{ site.url }}/{{page.image}}" alt="{{ project_name }}" />
-{%- endif -%}
+  <header class="ui-hero paper-hero">
+    <div class="paper-badges">
+      <span class="ui-badge">{% include category.html c=page.category %}</span>
+      {%- if page.year -%}<span class="ui-badge ui-badge-muted">{{ page.year }}</span>{%- endif -%}
+    </div>
+    <h1 class="ui-title paper-title">{{ page.name }}</h1>
+    {%- if page.authors -%}
+    <p class="paper-authors">{{ page.authors | replace: 'Vincenzo Nardelli', '<strong>Vincenzo Nardelli</strong>' }}</p>
+    {%- endif -%}
+    {%- if page.journal -%}
+    <p class="paper-journal"><i class="fas fa-book"></i> {{ page.journal }}</p>
+    {%- endif -%}
 
-<p class="post-metadata text-muted">
-  {% if page.year %}
-    Published: {{ page.year }}
-  {% elsif page.date %}
-    {{ page.date | date: "%Y" }}
-  {% endif %}
+    <div class="ui-actions">
+      {%- if page.link -%}
+      <a class="ui-btn ui-btn-primary" href="{{ page.link }}" target="_blank" rel="noopener"><i class="fas fa-file-alt"></i> {% include t.html en="Read the paper" it="Leggi l'articolo" %}</a>
+      {%- endif -%}
+      {%- if page.code -%}
+      <a class="ui-btn ui-btn-outline" href="{{ page.code }}" target="_blank" rel="noopener"><i class="fab fa-github"></i> {% include t.html en="Code" it="Codice" %}</a>
+      {%- endif -%}
+    </div>
+  </header>
 
-  <br>
-
-
-  {% if page.link %}
-  <a class="btn btn-outline-primary mr-2" href="{{page.link}}" role="button", target="_blank"><i class="fas fa-file-download"></i> Link to {{page.category}}</a>
-  {% endif %}
-
-  {% if page.code %}
-  <a class="btn btn-outline-primary" href="{{page.code}}" role="button" target="_blank"><i class="fab fa-github"></i> Link to code</a>
-  {% endif %}
-
-</p>
-
-
-
-
-{{ content }}
-
-
-  {%- if page.tools != empty -%}
-    {% for tag in page.tools %}
-
-      <span class="tag badge badge-pill text-primary border border-primary">{{ tag }}</span>
-    {% endfor %}
+  {%- if page.image -%}
+  <img class="paper-image" src="{{ page.image | relative_url }}" alt="">
   {%- endif -%}
+
+  <div class="ui-prose">
+    {{ content }}
+  </div>
+
+  {%- if page.tools and page.tools != empty -%}
+  <div class="ui-tags paper-tags">
+    {%- for tag in page.tools -%}<span class="ui-tag">{{ tag }}</span>{%- endfor -%}
+  </div>
+  {%- endif -%}
+</article>
+
+<style>
+.paper-page { max-width: 820px; margin: 0 auto; }
+.paper-back { display: inline-flex; align-items: center; gap: .5rem; margin-top: 2rem; font-weight: 600; font-size: .92rem; color: var(--ui-muted); }
+.paper-back:hover { color: var(--ui-accent); text-decoration: none; }
+.paper-hero { padding-top: 1.5rem; }
+.paper-badges { display: flex; gap: .4rem; margin-bottom: 1rem; }
+.paper-title { font-size: 2.1rem; }
+.paper-authors { color: var(--ui-muted); line-height: 1.6; margin-bottom: .4rem; }
+.paper-authors strong { color: var(--ui-text); }
+.paper-journal { font-weight: 600; margin: 0; }
+.paper-journal i { color: var(--ui-accent); margin-right: .3rem; }
+.paper-image { width: 100%; border-radius: var(--ui-radius); margin-bottom: 2rem; }
+.paper-tags { margin-top: 2rem; }
+@media (max-width: 640px) { .paper-title { font-size: 1.6rem; } }
+</style>
